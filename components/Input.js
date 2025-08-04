@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Dimensions } from 'react-native';
 import { TextInput, View, StyleSheet } from 'react-native';
 import theme from '../styles/themeLight'
 
-function Input() {
+export default function Input() {
 
 const [isFocused, setIsFocused] = useState(false);
 
@@ -25,19 +26,17 @@ return (
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: Dimensions.get('window').width,
         alignItems: 'center',
     },
     input: {
         width: '60%',
         height: 50,
-        margin: 20,
+        margin: theme.spacing.small,
         borderWidth: 2,
         borderRadius: theme.borderRadius.base,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingVertical: theme.spacing.small,
+        paddingHorizontal: theme.spacing.medium,
         color: theme.colors.text,
     },
 });
-
-export default Input;
