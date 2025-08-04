@@ -1,0 +1,26 @@
+// frontend/styles/theme.js
+const light = {
+  colors: {
+    primary: "#DD3B3B",
+    primaryHover: "#E38888",
+    background: "#ffffff",
+    backgroundOptions: "#F7F7F7",
+    text: "#0C0C2E",
+    success: "#1E5C21",
+    error: "#DD3B3B",
+    inactive: "#979797",
+    border: "#FEBFBF",
+  },
+  spacing: {
+    small: 8,
+    medium: 16,
+    large: 32,
+  },
+  fontSize: {
+    title: 96,
+    text: 20,
+    small: 14,
+  },
+};
+
+export default light;
