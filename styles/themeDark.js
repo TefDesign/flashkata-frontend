@@ -1,11 +1,11 @@
 // frontend/styles/theme.js
-const light = {
+const dark = {
   colors: {
     primary: "#DD3B3B",
     primaryHover: "#E38888",
-    background: "#ffffff",
+    background: "#0C0C2E",
     backgroundOptions: "#F7F7F7",
-    text: "#0C0C2E",
+    text: "#ffffff",
     success: "#1E5C21",
     error: "#DD3B3B",
     inactive: "#979797",
@@ -23,4 +23,4 @@ const light = {
   },
 };
 
-export default light;
+export default dark;
