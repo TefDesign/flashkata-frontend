@@ -8,8 +8,8 @@ const light = {
     text: "#0C0C2E",
     success: "#1E5C21",
     error: "#DD3B3B",
-    inactive: "#979797",
-    border: "#FEBFBF",
+    border: "#D6D6D6",
+    borderCard: "#FEBFBF",
   },
   spacing: {
     small: 8,
@@ -20,6 +20,9 @@ const light = {
     title: 96,
     text: 20,
     small: 14,
+  },
+  borderRadius: {
+    base: 8,
   },
 };
 
