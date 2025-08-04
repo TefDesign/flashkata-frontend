@@ -14,6 +14,7 @@ return (
             { borderColor: isFocused ? theme.colors.primary : theme.colors.border },
         ]}
           placeholder='Input'
+          placeholderTextColor={theme.colors.border}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           selectionColor={theme.colors.border}
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
         borderRadius: theme.borderRadius.base,
         paddingVertical: 10,
         paddingHorizontal: 20,
+        color: theme.colors.text,
     },
 });
 
