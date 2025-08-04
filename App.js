@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import Input from "./components/Input";
 
 //Redux
 import { Provider } from "react-redux";
@@ -15,6 +16,7 @@ export default function App() {
       <View style={styles.container}>
         <Text>Open up App.js to start working on your app!</Text>
         <StatusBar style="auto" />
+        <Input />
       </View>
     </Provider>
   );
