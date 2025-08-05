@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-assets/slider": "^11.0.8",
     "@expo-google-fonts/outfit": "^0.4.2",
     "@expo-google-fonts/staatliches": "^0.4.0",
     "@react-navigation/native": "^7.1.16",
