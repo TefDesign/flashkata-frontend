@@ -32,12 +32,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontWeight: 600,
+    fontFamily: theme.fonts.outfitRegular,
   },
   textInverse: {
     color: theme.colors.primary,
     textAlign: "center",
     fontSize: 20,
     fontWeight: 600,
+    fontFamily: theme.fonts.outfitRegular,
   },
   outline: {
     backgroundColor: "#ffffff",
