@@ -1,17 +1,36 @@
-import { View, Text } from 'react-native';
-import ProgressBar from 'react-native-progress/Bar';
-import theme from '../styles/themeLight'
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import theme  from '../styles/themeLight'
 
-export default function Gauge() {
+const Gauge = ({ progress = 60 }) => {
+
   return (
-    <View>
-      <ProgressBar 
-        progress={0.9} 
-        width={200} 
-        height={20}
-        color={theme.colors.success}
-        borderRadius={8}
-      />
+    <View style={styles.container}>
+      <View style={[styles.progress, { width: `${progress}%` }]}>
+        <Text style={styles.text}>{progress}</Text>
+      </View>
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    width: Dimensions.get('window').width,
+    backgroundColor: theme.colors.background,
+    height: 20,
+    borderRadius: theme.borderRadius.base,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    overflow: 'hidden',
+  },
+  progress: {
+    height: '100%',
+    backgroundColor: theme.colors.success,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: theme.colors.background,
+  },
+});
+
+export default Gauge;
