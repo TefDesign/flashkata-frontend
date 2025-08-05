@@ -1,3 +1,5 @@
+import { Staatliches_400Regular } from "@expo-google-fonts/staatliches";
+
 // frontend/styles/theme.js
 const dark = {
   colors: {
@@ -23,6 +25,11 @@ const dark = {
   },
   borderRadius: {
     base: 8,
+  },
+  fonts: {
+    outfitLight: "Outfit_300Light",
+    outfitRegular: "Outfit_400Regular",
+    staatliches: "Staatliches_400Regular",
   },
 };
 

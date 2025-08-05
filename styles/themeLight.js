@@ -24,6 +24,11 @@ const light = {
   borderRadius: {
     base: 8,
   },
+  fonts: {
+    outfitLight: "Outfit_300Light",
+    outfitRegular: "Outfit_400Regular",
+    staatliches: "Staatliches_400Regular",
+  },
 };
 
 export default light;
