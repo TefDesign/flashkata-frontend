@@ -12,8 +12,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import users from "./reducers/users";
 import { useEffect } from "react";
-import Button from "./components/Button";
-import Input from "./components/Input";
+
 const store = configureStore({
   reducer: { users },
 });

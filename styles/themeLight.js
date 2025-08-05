@@ -10,6 +10,7 @@ const light = {
     error: "#DD3B3B",
     border: "#D6D6D6",
     borderCard: "#FEBFBF",
+    dark: "#0C0C2E",
   },
   spacing: {
     small: 8,
