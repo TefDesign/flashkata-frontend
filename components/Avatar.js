@@ -1,32 +1,13 @@
-import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
-import theme from "../styles/themeLight";
+import { TouchableOpacity, Image } from "react-native";
 import AvatarIcon from "../assets/icons/avatar";
 
-const Avatar = ({ avatarType }) => {
+const Avatar = ({ img, size = 240 }) => {
 
   return (
-    <TouchableOpacity style={styles.base}>
-      <View style={styles.btnContent}>
-        {avatarType ? (<Image source={{ uri: avatarType}} style={styles.icon} /> ) : (<AvatarIcon width={180} height={180} style={styles.icon} />)}
-      </View>
+    <TouchableOpacity>
+      {img ? (<Image source={{ uri: img }} style={{width: size, height: size, borderRadius: '50%' }} /> ) : (<AvatarIcon width={size} height={size} />)}
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  base: {
-    width: 60,
-    height: 60,
-    margin: 60,
-  },
-  icon: {
-    marginRight: theme.spacing.small,
-  },
-  btnContent: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default Avatar;
