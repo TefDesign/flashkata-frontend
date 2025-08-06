@@ -25,6 +25,7 @@ const dark = {
   },
   borderRadius: {
     base: 8,
+    card: 14,
   },
   fonts: {
     outfitLight: "Outfit_300Light",
