@@ -18,7 +18,7 @@ const light = {
     large: 32,
   },
   fontSize: {
-    title: 96,
+    title: 36,
     text: 20,
     small: 14,
   },
