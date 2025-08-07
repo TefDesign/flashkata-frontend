@@ -1,3 +1,7 @@
+/**
+ * composant CardFlip qui intègre la logie d'animation du flip des cartes.
+ */
+
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import theme from "../styles/themeLight";
 import Animated, {
@@ -8,16 +12,16 @@ import Animated, {
 
 const CardFlip = (props) => {
   const { kata, isFlipped, direction = "y", duration = 500 } = props;
-  const { image: imgComponent } = kata.props;
+
   const isDirectionX = direction === "x";
 
-  const RegularContent = (content) => {
+  const ImageCardContent = (content) => {
     return <View style={styles.content}>{content}</View>;
   };
-  const FlippedContent = (content) => {
+  const TextCardContent = (content) => {
     return (
       <View style={styles.content}>
-        <Text style={styles.text}>{content.text}</Text>
+        <Text style={styles.text}>{content}</Text>
       </View>
     );
   };
@@ -25,6 +29,7 @@ const CardFlip = (props) => {
   const regularCardAnimatedStyle = useAnimatedStyle(() => {
     //interpolate permet de synchroniser 2 valeurs pour une animation. Converti la val bool en Number et si 1 on passe à 180 progressivement
     const spinValue = interpolate(Number(isFlipped.value), [0, 1], [0, 180]);
+    // withTiming permet une animation fluide
     const rotateValue = withTiming(`${spinValue}deg`, { duration });
 
     return {
@@ -36,7 +41,6 @@ const CardFlip = (props) => {
 
   const flippedCardAnimatedStyle = useAnimatedStyle(() => {
     const spinValue = interpolate(Number(isFlipped.value), [0, 1], [180, 360]);
-    // withTiming permet une animation fluide
     const rotateValue = withTiming(`${spinValue}deg`, { duration });
 
     return {
@@ -51,14 +55,12 @@ const CardFlip = (props) => {
       <Animated.View
         style={[flipCardStyles.regularCard, regularCardAnimatedStyle]}
       >
-        {RegularContent(
-          <imgComponent width={300} height={300} style={styles.title} />
-        )}
+        {ImageCardContent(kata)}
       </Animated.View>
       <Animated.View
         style={[flipCardStyles.flippedCard, flippedCardAnimatedStyle]}
       >
-        {FlippedContent(kata.props)}
+        {TextCardContent(kata.props?.name)}
       </Animated.View>
     </Animated.View>
   );
