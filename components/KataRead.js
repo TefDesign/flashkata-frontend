@@ -12,7 +12,7 @@ const KataRead = (props) => {
   return (
     <View>
       {SvgComponent && <SvgComponent width={300} height={300} />}
-      <Text>{text}</Text>
+      {text && <Text>{text}</Text>}
       {word && <Text style={styles.word}>{word}</Text>}
     </View>
   );

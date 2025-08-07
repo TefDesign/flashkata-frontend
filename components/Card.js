@@ -10,7 +10,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const CardFlip = (props) => {
+const Card = (props) => {
   const { kata, isFlipped, direction = "y", duration = 500 } = props;
 
   const isDirectionX = direction === "x";
@@ -66,7 +66,7 @@ const CardFlip = (props) => {
   );
 };
 
-export default CardFlip;
+export default Card;
 
 const flipCardStyles = StyleSheet.create({
   regularCard: {
