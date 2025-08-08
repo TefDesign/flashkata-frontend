@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import SignInScreen from './screens/SignInScreen';
-import DiscoverApp from './screens/DiscoverApp';
+import DiscoverAppScreen from './screens/DiscoverAppScreen';
 
 // Google Font
 import { useFonts } from "expo-font";
@@ -62,7 +62,7 @@ export default function App() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="DiscoverApp" component={DiscoverApp} />
+            <Stack.Screen name="DiscoverApp" component={DiscoverAppScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
