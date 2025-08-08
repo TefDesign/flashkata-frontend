@@ -26,29 +26,26 @@ const Card = (props) => {
     );
   };
 
-  const regularCardAnimatedStyle = useAnimatedStyle(() => {
-    //interpolate permet de synchroniser 2 valeurs pour une animation. Converti la val bool en Number et si 1 on passe à 180 progressivement
-    const spinValue = interpolate(Number(isFlipped.value), [0, 1], [0, 180]);
-    // withTiming permet une animation fluide
-    const rotateValue = withTiming(`${spinValue}deg`, { duration });
+  const animatedCard = (inputRange, outputRange) => {
+    return useAnimatedStyle(() => {
+      const spinValue = interpolate(
+        Number(isFlipped.value),
+        inputRange,
+        outputRange
+      );
 
-    return {
-      transform: [
-        isDirectionX ? { rotateX: rotateValue } : { rotateY: rotateValue },
-      ],
-    };
-  });
+      const rotateValue = withTiming(`${spinValue}deg`, { duration });
 
-  const flippedCardAnimatedStyle = useAnimatedStyle(() => {
-    const spinValue = interpolate(Number(isFlipped.value), [0, 1], [180, 360]);
-    const rotateValue = withTiming(`${spinValue}deg`, { duration });
+      return {
+        transform: [
+          isDirectionX ? { rotateX: rotateValue } : { rotateY: rotateValue },
+        ],
+      };
+    });
+  };
 
-    return {
-      transform: [
-        isDirectionX ? { rotateX: rotateValue } : { rotateY: rotateValue },
-      ],
-    };
-  });
+  const regularCardAnimatedStyle = animatedCard([0, 1], [0, 180]);
+  const flippedCardAnimatedStyle = animatedCard([0, 1], [180, 360]);
 
   return (
     <Animated.View style={styles.container}>
