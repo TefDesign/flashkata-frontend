@@ -1,19 +1,9 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import theme from "../styles/themeLight";
-import LogoIcon from "../assets/icons/logo.svg";
-import GoogleIcon from "../assets/icons/google.svg";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../reducers/users";
-import { API_URL } from "@env";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import Card from "../components/Card";
+import KataWrite from "../components/KataWrite";
+import { useSharedValue } from "react-native-reanimated";
+import { useRef } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function SignUpScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -41,75 +31,25 @@ export default function SignUpScreen({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <View style={styles.logo}>
-        <LogoIcon
-          width={280}
-          height={280}
-          style={{ color: theme.colors.text }}
+    <GestureHandlerRootView style={styles.containerGestureRoot}>
+      {cards.map((card, index) => (
+        <Card
+          key={index}
+          kata={<KataWrite {...card} />}
+          isFlipped={isFlippedArray.current[index]}
         />
-      </View>
-      <Text style={styles.title}>S'enregistrer via</Text>
-      <Button
-        icon={GoogleIcon}
-        title="Google"
-        variant="outline"
-        style={styles.button}
-      />
-      <View style={styles.barre} />
-      <Text style={styles.title}>ou directement</Text>
-      <Input
-        placeholder="Nom d'utilisateur"
-        autoCapitalize="none"
-        onChangeText={(value) => setUserName(value)}
-        value={userName}
-      />
-      <Input
-        placeholder="Email"
-        autoCapitalize="none"
-        onChangeText={(value) => setEmail(value)}
-        value={email}
-      />
-      <Input
-        placeholder="Mot de passe"
-        secureTextEntry
-        onChangeText={(value) => setPassword(value)}
-        value={password}
-      />
-      <Button
-        style={styles.button}
-        title="S'inscrire"
-        onPress={() => handleSignup()}
-      />
-    </KeyboardAvoidingView>
+      ))}
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  containerGestureRoot: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: 40,
-    paddingRight: 40,
-  },
-  title: {
-    fontFamily: theme.fonts.staatliches,
-    fontSize: theme.fontSize.title,
-    margin: theme.spacing.medium,
-  },
-  button: {
-    margin: theme.spacing.small,
-    width: "85%",
-  },
-  barre: {
-    width: "60%",
-    backgroundColor: theme.colors.error,
-    height: 4,
-    marginTop: theme.spacing.medium,
+    height: Dimensions.get("window").height,
+    width: Dimensions.get("window").width,
   },
 });
