@@ -25,12 +25,9 @@ const dark = {
     large: 32,
   },
   fontSize: {
-    title: 48,
-    menu: 40,
-    subMenu: 32,
-    textLarge: 24,
-    text: 16,
-    small: 12,
+    title: 36,
+    text: 20,
+    small: 14,
   },
   borderRadius: {
     base: 8,
