@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function DiscoverApp() {
+export default function DiscoverAppScreen() {
  return (
    <View style={styles.container}>
      <Text>Découvrir l'application</Text>
