@@ -3,7 +3,8 @@ import { Dimensions } from "react-native";
 import { TextInput, View, StyleSheet } from "react-native";
 import theme from "../styles/themeLight";
 
-export default function Input() {
+const Input = (props) => {
+  const { placeholder, secureTextEntry = false, autoCapitalize } = props;
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -15,11 +16,13 @@ export default function Input() {
             borderColor: isFocused ? theme.colors.primary : theme.colors.border,
           },
         ]}
-        placeholder="Input"
+        placeholder={placeholder}
         placeholderTextColor={theme.colors.border}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         selectionColor={theme.colors.border}
+        secureTextEntry={secureTextEntry}
+        autoCapitalize={autoCapitalize}
       />
     </View>
   );
@@ -43,3 +46,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default Input;
