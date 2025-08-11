@@ -7,6 +7,7 @@ import Input from '../components/Input';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/users';
+import { API_URL } from '@env';
 
 export default function SignInScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export default function SignInScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const handleSignin = () => {
-     fetch('http://192.168.1.175:3000/users/signin', {
+     fetch(`${API_URL}/users/signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),

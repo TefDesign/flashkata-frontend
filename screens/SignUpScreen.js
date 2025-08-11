@@ -7,6 +7,7 @@ import Input from '../components/Input';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../reducers/users';
+import { API_URL } from '@env';
 
 export default function SignUpScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export default function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const handleSignup = () => {
-     fetch('http://192.168.1.175:3000/users/signup', {
+     fetch(`${API_URL}/users/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password }),

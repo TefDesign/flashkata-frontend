@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.medium,
     color: theme.colors.text,
     fontFamily: theme.fonts.outfitRegular,
-    fontSize: 16,
+    fontSize: theme.fontSize.text,
   },
 });
 
