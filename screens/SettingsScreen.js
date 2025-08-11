@@ -1,14 +1,72 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import theme from "../styles/themeLight";
+import LogoIcon from "../assets/icons/logo.svg";
+import LightIcon from "../assets/icons/light.svg";
+import DarkIcon from "../assets/icons/dark.svg";
+import { SafeAreaView } from "react-native-safe-area-context";
+import HeaderSecondary from "../components/HeaderSecondary";
+import SwitchOption from "../components/SwitchOption";
+import { useState } from "react";
 
 const SettingsScreen = () => {
+  const [activeDarkMode, setActiveDarkMode] = useState(false);
+  const [disabledListening, setDisabledListening] = useState(false);
+
   return (
-    <View>
-      <Text>SettingsScreen</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <HeaderSecondary />
+      <View style={styles.logo}>
+        <LogoIcon width={256} height={136} />
+      </View>
+      <Text style={styles.title}>Options</Text>
+      <View style={styles.optionsContainer}>
+        <View style={styles.option}>
+          <Text style={styles.text}>Dark mode</Text>
+          <View style={styles.switchContainer}>
+            <LightIcon width={30} height={30} />
+            <SwitchOption value={activeDarkMode} onChange={setActiveDarkMode} />
+            <DarkIcon width={30} height={30} />
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default SettingsScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+    paddingHorizontal: theme.spacing.large,
+  },
+  logo: {
+    marginBottom: 40,
+  },
+  title: {
+    fontFamily: theme.fonts.staatliches,
+    fontSize: theme.fontSize.menu,
+    margin: theme.spacing.medium,
+    marginBottom: theme.spacing.large,
+  },
+  text: {
+    fontFamily: theme.fonts.outfitRegular,
+    fontSize: theme.fontSize.text,
+  },
+  option: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: theme.colors.backgroundOptions,
+    borderRadius: theme.borderRadius.base,
+    padding: theme.spacing.medium,
+  },
+  switchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+});
