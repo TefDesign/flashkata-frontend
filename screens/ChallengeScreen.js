@@ -10,7 +10,7 @@ import SliderRange from "../components/SliderRange";
 import SwitchOption from "../components/SwitchOption";
 import { useState } from "react";
 
-const ChallengeScreen = () => {
+const ChallengeScreen = ({ navigation }) => {
   const [activeLimit, setActiveLimit] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
