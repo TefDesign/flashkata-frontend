@@ -3,13 +3,17 @@ import { useState } from "react";
 import SwitchToggle from "react-native-switch-toggle";
 import theme from "../styles/themeLight";
 
-const SwitchOption = () => {
-  const [isEnabled, setIsEnabled] = useState(false);
+const SwitchOption = (props) => {
+  const { value = false, onChange } = props;
+
+  const handlePress = () => {
+    if (onChange) onChange(!value);
+  };
 
   return (
     <SwitchToggle
-      switchOn={isEnabled}
-      onPress={() => setIsEnabled(!isEnabled)}
+      switchOn={value}
+      onPress={handlePress}
       containerStyle={styles.container}
       backgroundColorOn={"rgba(38,50,56,.7)"}
       backgroundColorOff={"rgba(38,50,56,.28)"}

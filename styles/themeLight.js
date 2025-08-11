@@ -20,6 +20,7 @@ const light = {
   fontSize: {
     title: 48,
     menu: 40,
+    subMenu: 32,
     textLarge: 24,
     text: 16,
     small: 12,
