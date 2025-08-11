@@ -30,7 +30,7 @@ export default function SignUpScreen({ navigation }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.result) {
-          dispatch(login({ token: data.token, userName }));
+          dispatch(login({ token: data.token, username : data.userName, id : data.id }));
           navigation.navigate("MainMenu");
         } else if (data.error) {
           alert(data.error);
