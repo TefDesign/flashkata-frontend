@@ -3,16 +3,26 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import theme from '../styles/themeLight';
 
-const SliderRange = () => {
+const SliderRange = (props) => {
+  const { mode } = props;
 
-  const [sliderValue, setSliderValue] = useState(1);
+  const [sliderValue, setSliderValue] = useState(5);
+
+  const getMode = () => {
+    if (mode === 'time') {
+      return `${sliderValue} min`;
+    } else if (mode === 'cards') {
+      return `${sliderValue} cartes`;
+    }
+    return `${sliderValue}`;
+  };
 
   return (
     <View style={styles.container}>
         <Text
           style={{
             position: 'absolute',
-            left: ((sliderValue - 1) / 9) * 300 - 22,
+            left: ((sliderValue - 5) / (15 - 5)) * 300 - 25,
             top: -16,
             fontSize: theme.fontSize.small,
             fontWeight: 'bold',
@@ -20,12 +30,12 @@ const SliderRange = () => {
             textAlign: 'center',
           }}
         >
-          {sliderValue} {sliderValue === 1 ? 'card' : 'cards'}
+          {getMode()}
         </Text>
         <Slider
           style={styles.slider}
-          minimumValue={1}
-          maximumValue={10}
+          minimumValue={5}
+          maximumValue={15}
           onValueChange={(value) => setSliderValue(value)}
           step={1}
           value={sliderValue}
