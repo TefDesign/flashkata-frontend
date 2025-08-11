@@ -1,8 +1,17 @@
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import theme from "../styles/themeLight";
 import LogoIcon from "../assets/icons/logo.svg";
+import { useSelector } from "react-redux";
 
 export default function HomeScreen({ navigation }) {
+  const user = useSelector((state) => state.users);
+  if (!user.token) {
+    navigation.navigate("SignIn");
+    return null;
+  } else {
+    navigation.navigate("MainMenu");
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
