@@ -2,13 +2,16 @@ import { View, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import theme from "../styles/themeLight";
 import ArrowBackIcon from "../assets/icons/arrowback.svg";
 import Avatar from "./Avatar";
+import { useNavigation } from "@react-navigation/native";
 
 const HeaderSecondary = ({ isArrowBack = true, isAvatar = true }) => {
   const onlyAvatar = !isArrowBack && isAvatar;
+  const navigation = useNavigation();
+
   return (
     <View style={[styles.headerContainer, onlyAvatar && styles.onlyAvatar]}>
       {isArrowBack && (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowBackIcon width={40} height={40} />
         </TouchableOpacity>
       )}

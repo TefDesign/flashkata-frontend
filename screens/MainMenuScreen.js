@@ -4,6 +4,7 @@ import LogoIcon from "../assets/icons/logo.svg";
 import SettingIcon from "../assets/icons/setting.svg";
 import HeaderSecondary from "../components/HeaderSecondary";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Settings from "../components/Settings";
 
 const MainMenuScreen = ({ navigation }) => {
   return (
@@ -33,12 +34,7 @@ const MainMenuScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("Progression")}>
         <Text style={styles.menu}>Progression</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.setting}
-        onPress={() => navigation.navigate("Settings")}
-      >
-        <SettingIcon width={30} height={30} />
-      </TouchableOpacity>
+      <Settings />
     </SafeAreaView>
   );
 };
