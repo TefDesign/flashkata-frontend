@@ -35,7 +35,7 @@ const ChallengeScreen = () => {
       <View style={styles.sliderContainer}>
         <Text style={styles.text}>Activer la limite d'apprentissage</Text>
         <SwitchOption value={activeLimit} onChange={setActiveLimit} />
-        {activeLimit && <SliderRange />}
+        {activeLimit && <SliderRange mode="time" />}
       </View>
       <Button title="Lancer le challenge" />
       <Settings />
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   sliderContainer: {
     alignItems: "center",
-    gap: theme.spacing.medium,
+    gap: theme.spacing.large,
     marginBottom: theme.spacing.large,
   },
 });

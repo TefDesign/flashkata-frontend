@@ -28,7 +28,6 @@ export default SwitchOption;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 16,
     width: 60,
     height: 25,
     borderRadius: 25,
