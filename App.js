@@ -1,10 +1,19 @@
 //Navigation
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './screens/HomeScreen';
-import SignUpScreen from './screens/SignUpScreen';
-import SignInScreen from './screens/SignInScreen';
-import DiscoverAppScreen from './screens/DiscoverAppScreen';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./screens/HomeScreen";
+import SignUpScreen from "./screens/SignUpScreen";
+import SignInScreen from "./screens/SignInScreen";
+import DiscoverAppScreen from "./screens/DiscoverAppScreen";
+import MainMenuScreen from "./screens/MainMenuScreen";
+import TutorialScreen from "./screens/TutorialScreen";
+import IntroJapaneseScreen from "./screens/IntroJapaneseScreen";
+import HiraganaScreen from "./screens/HiraganaScreen";
+import KatakanaScreen from "./screens/KatakanaScreen";
+import ReviewAllScreen from "./screens/ReviewAllScreen";
+import ChallengeScreen from "./screens/ChallengeScreen";
+import ProgressionScreen from "./screens/ProgressionScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 
 // Google Font
 import { useFonts } from "expo-font";
@@ -19,16 +28,17 @@ import users from "./reducers/users";
 import { useEffect } from "react";
 
 //Redux-Persist
-import { persistStore, persistReducer } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const reducers = combineReducers({ users });
-const persistConfig = { key: 'FlashKata', storage: AsyncStorage };
+const persistConfig = { key: "FlashKata", storage: AsyncStorage };
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 const persistor = persistStore(store);
@@ -63,6 +73,18 @@ export default function App() {
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="DiscoverApp" component={DiscoverAppScreen} />
+            <Stack.Screen name="MainMenu" component={MainMenuScreen} />
+            <Stack.Screen name="Tutorial" component={TutorialScreen} />
+            <Stack.Screen
+              name="IntroJapanese"
+              component={IntroJapaneseScreen}
+            />
+            <Stack.Screen name="Hiragana" component={HiraganaScreen} />
+            <Stack.Screen name="Katakana" component={KatakanaScreen} />
+            <Stack.Screen name="ReviewAll" component={ReviewAllScreen} />
+            <Stack.Screen name="Challenge" component={ChallengeScreen} />
+            <Stack.Screen name="Progression" component={ProgressionScreen} />
+            <Stack.Screen name="Settings" component={SettingsScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
