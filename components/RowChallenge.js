@@ -2,12 +2,12 @@ import { StyleSheet, Text, View } from "react-native";
 import theme from "../styles/themeLight";
 
 const RowChallenge = (props) => {
-  const { time, nbKata } = props;
+  const { time, nbKana } = props;
   return (
     <View style={styles.container}>
       <Text style={styles.time}>{time} min</Text>
-      <Text style={styles.nbKata}>
-        {nbKata} {nbKata > 1 ? "Katas" : "Kata"}
+      <Text style={styles.nbKana}>
+        {nbKana} {nbKana > 1 ? "Katas" : "Kata"}
       </Text>
     </View>
   );
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     color: theme.colors.text,
     fontFamily: theme.fonts.outfitRegular,
   },
-  nbKata: {
+  nbKana: {
     fontSize: 16,
     color: theme.colors.success,
     fontFamily: theme.fonts.outfitRegular,
