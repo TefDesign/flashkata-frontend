@@ -2,10 +2,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import theme from "../styles/themeLight";
 
 const Button = (props) => {
-  const { title, icon: IconComponent, variant = "base", style } = props;
+  const { title, icon: IconComponent, variant = "base", onPress } = props;
 
   return (
-    <TouchableOpacity style={[styles[variant] || styles.base, style]}>
+    <TouchableOpacity onPress={onPress} style={styles[variant] || styles.base}>
       <View style={styles.btnContent}>
         {IconComponent && (
           <IconComponent width={36} height={36} style={styles.icon} />

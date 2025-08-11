@@ -4,7 +4,7 @@ import { TextInput, View, StyleSheet } from "react-native";
 import theme from "../styles/themeLight";
 
 const Input = (props) => {
-  const { placeholder, secureTextEntry = false, autoCapitalize } = props;
+  const { placeholder, secureTextEntry = false, autoCapitalize, value, onChangeText } = props;
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -23,6 +23,8 @@ const Input = (props) => {
         selectionColor={theme.colors.border}
         secureTextEntry={secureTextEntry}
         autoCapitalize={autoCapitalize}
+        value={value}
+        onChangeText={onChangeText}
       />
     </View>
   );

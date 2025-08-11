@@ -2,11 +2,34 @@ import { StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-na
 import theme from "../styles/themeLight";
 import LogoIcon from "../assets/icons/logo.svg";
 import GoogleIcon from "../assets/icons/google.svg"
-import AppleIcon from "../assets/icons/apple.svg"
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../reducers/users';
 
-export default function SignUpScreen() {
+export default function SignUpScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const [username, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignup = () => {
+     fetch('http://192.168.1.175:3000/users/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password }),
+    }).then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          dispatch(login({ token: data.token, username }));
+          navigation.navigate('MainMenu');
+        } else if (data.error) {
+          alert(data.error);
+        }
+      });
+  }
+
  return (
   <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.logo}>
@@ -19,18 +42,31 @@ export default function SignUpScreen() {
         variant="outline"
         style={styles.button}
       />
-      <Button
-        icon={AppleIcon}
-        title="Apple"
-        variant="outline"
-        style={styles.button}
-      />
       <View style={styles.barre} />
       <Text style={styles.title}>ou directement</Text>
-      <Input placeholder="Nom d'utilisateur"/>
-      <Input placeholder="Email" autoCapitalize="none"/>
-      <Input placeholder="Mot de passe" secureTextEntry/>
-      <Button style={[styles.button, { marginBottom: 80 }]} title="S'inscrire"/>
+      <Input 
+        placeholder="Nom d'utilisateur"
+        autoCapitalize="none"
+        onChangeText={(value) => setUserName(value)}
+        value={username}
+      />
+      <Input 
+        placeholder="Email" 
+        autoCapitalize="none"
+        onChangeText={(value) => setEmail(value)}
+        value={email}
+      />
+      <Input 
+        placeholder="Mot de passe" 
+        secureTextEntry
+        onChangeText={(value) => setPassword(value)}
+        value={password}
+      />
+      <Button 
+        style={styles.button} 
+        title="S'inscrire"
+        onPress={() => handleSignup()}
+      />
   </KeyboardAvoidingView>
  );
 }
@@ -41,6 +77,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingLeft: 40,
+    paddingRight: 40,
   },
    title: {
     fontFamily: theme.fonts.staatliches,
@@ -52,8 +90,9 @@ const styles = StyleSheet.create({
     width: '85%',
   },
    barre: {
-    width: '50%',
+    width: '60%',
     backgroundColor: theme.colors.error,
     height: 4,
+    marginTop: theme.spacing.medium,
    },
 });
