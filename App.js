@@ -14,6 +14,7 @@ import ReviewAllScreen from "./screens/ReviewAllScreen";
 import ChallengeScreen from "./screens/ChallengeScreen";
 import ProgressionScreen from "./screens/ProgressionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import Syllabaire from "./screens/Syllabaire.js";
 
 // Google Font
 import { useFonts } from "expo-font";
