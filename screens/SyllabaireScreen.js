@@ -17,7 +17,7 @@ import { svgMap, getSvgRequire } from "../utils/svgMap";
 
 export default function Syllabaire({ navigation, route }) {
 
-  const { type, data } = route.params;
+  const { type } = route.params;
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users)
@@ -34,12 +34,13 @@ export default function Syllabaire({ navigation, route }) {
 
   const getProgress = async () => {
     try {
-      /*
+
       console.log("debut", API_URL)
       const resp = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${type}`)
-      const data = await resp.json()
+      let data = await resp.json()
+      data = data.data
       console.log('resp : ', data)
-      */
+      
      
       // Ordre syllabaire
       const traditionalOrder = [
@@ -111,8 +112,6 @@ export default function Syllabaire({ navigation, route }) {
     const svgKey = getKanaSvgKey(kanaName, kanaType, index);
     const SvgComponent = getSvgRequire(svgKey);
 
-    console.log(`Index: ${index}, Kana: ${kanaName}, Key: ${svgKey}, Found: ${!!SvgComponent}`);
-
     return (
       <Pressable 
           style={
@@ -121,7 +120,7 @@ export default function Syllabaire({ navigation, route }) {
                 borderColor: borderColor(priority, isFavorite), 
                 opacity : opacity(nbViews), backgroundColor : isFavorite ? "#ffffbcff" : "#f9f9f9"
                 }]}
-                onPress={() => navigation.navigate("KanaScreen", { type: item.katakanaId ? "katakana" : "hiragana" , kana : item, index : index })}
+                onPress={() => navigation.navigate("KanaScreen", { type: item.katakanaId ? "katakana" : "hiragana" , kana : item, index : index, getProgress })}
                 
                 >
         {SvgComponent ? (
