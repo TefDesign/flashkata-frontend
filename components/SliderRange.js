@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Slider } from "@react-native-assets/slider";
 import { useState } from "react";
 import theme from "../styles/themeLight";
+import useThemedStyles from "../hooks/useThemedStyles";
 
 const SliderRange = (props) => {
   const { mode = "cards" } = props;
@@ -27,6 +28,19 @@ const SliderRange = (props) => {
   const { display, min, max } = getMode();
   const styleLeft = ((sliderValue - min) / (max - min)) * 300 - 25;
 
+  const [theme, styles] = useThemedStyles((theme) =>
+    StyleSheet.create({
+      container: {
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      slider: {
+        width: 300,
+        height: 40,
+      },
+    })
+  );
+
   return (
     <View style={styles.container}>
       <Text
@@ -51,23 +65,12 @@ const SliderRange = (props) => {
         value={sliderValue}
         minimumTrackTintColor={theme.colors.success}
         maximumTrackTintColor={theme.colors.border}
-        thumbTintColor={theme.colors.text}
+        thumbTintColor={theme.colors.sliderCursor}
         trackHeight={10}
         thumbSize={26}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  slider: {
-    width: 300,
-    height: 40,
-  },
-});
 
 export default SliderRange;
