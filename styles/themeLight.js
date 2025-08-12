@@ -18,6 +18,7 @@ const light = {
     lightIcon: "#e6c935ff",
     darkIcon: "#3b3b75ff",
     hiscore: "#1E5C21",
+    backgroundCard: "#F7F7F7",
   },
   spacing: {
     small: 8,
