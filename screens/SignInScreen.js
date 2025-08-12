@@ -48,7 +48,11 @@ export default function SignInScreen({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.logo}>
-        <LogoIcon width={280} height={280} />
+        <LogoIcon
+          width={280}
+          height={280}
+          style={{ color: theme.colors.text }}
+        />
       </View>
       <Text style={styles.title}>Se connecter</Text>
       <Button

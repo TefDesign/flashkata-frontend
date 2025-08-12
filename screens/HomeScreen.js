@@ -11,14 +11,18 @@ export default function HomeScreen({ navigation }) {
     if (user?.token) {
       navigation.navigate("MainMenu");
     } else {
-      navigation.navigate("SignIn");
+      navigation.navigate("Home");
     }
   }, [user?.token, navigation]);
 
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
-        <LogoIcon width={284} height={150} />
+        <LogoIcon
+          width={284}
+          height={150}
+          style={{ color: theme.colors.text }}
+        />
       </View>
       <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
         <Text style={styles.title}>S'enregistrer</Text>
