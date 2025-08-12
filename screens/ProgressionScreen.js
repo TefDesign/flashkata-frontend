@@ -7,9 +7,43 @@ import LogoIcon from "../assets/icons/logo.svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Settings from "../components/Settings";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { API_URL } from "@env";
 
 const ProgressionScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.users)
 
+  const [hiraganaProgress, setHiraganaProgress] = useState(0)
+  const [katakanaProgress, setKatakanaProgress] = useState(0)
+  const [dataKata, setDataKatakana] = useState()
+  const [dataHira, setDataHiragana] = useState()
+
+
+    const getProgress = async () => {
+      try {
+        console.log("debut", API_URL)
+        const respKatakana = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${"katakana"}`)
+        const dataKatakana = await respKatakana.json()
+        const respHiragana = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${'hiragana'}`)
+        const dataHiragana = await respHiragana.json()
+
+        setHiraganaProgress(dataHiragana.data.reduce((acc, kana) => {acc + ( kana.nbViews > 0 ? 1 : 0)} , 0))
+        setKatakanaProgress(dataKatakana.data.reduce((acc, kana) => acc + ( kana.nbViews > 0 ? 1 : 0) , 0))
+
+        setDataKatakana(dataKatakana.data)
+        setDataHiragana(dataHiragana.data)
+
+      } catch (err) {
+        console.log(err)
+      }
+    
+    }
+
+    useEffect(() => {
+      getProgress()
+      katakanaProgress
+    }, [])
 
   
   return (
@@ -19,16 +53,16 @@ const ProgressionScreen = ({ navigation }) => {
         <LogoIcon width={256} height={136} />
       </View>
       <Text style={styles.title}>Progression</Text>
-      <Pressable onPress={() => navigation.navigate("Syllabaire", { type: "hiragana" })}>
+      <Pressable onPress={() => navigation.navigate("Syllabaire", { type: "hiragana" , data : dataHira})}>
       <View style={styles.progressionContainer}>
         <Text style={styles.text}>Hiragana</Text>
-        <Gauge progress={75} />
+        <Gauge progress={hiraganaProgress} />
       </View>
       </Pressable>
-      <Pressable onPress={() => navigation.navigate("Syllabaire", { type: "katakana" })}>
+      <Pressable onPress={() => navigation.navigate("Syllabaire", { type: "katakana" , data : dataKata })}>
       <View style={styles.progressionContainer}>
         <Text style={styles.text}>Katakana</Text>
-        <Gauge progress={11} />
+        <Gauge progress={katakanaProgress} />
       </View>
       </Pressable>     
       <View style={styles.ResetContainer}>

@@ -15,6 +15,7 @@ import ChallengeScreen from "./screens/ChallengeScreen";
 import ProgressionScreen from "./screens/ProgressionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SyllabaireScreen from "./screens/SyllabaireScreen";
+import KanaScreen from "./screens/KanaScreen";
 
 // Google Font
 import { useFonts } from "expo-font";
@@ -87,6 +88,8 @@ export default function App() {
             <Stack.Screen name="Progression" component={ProgressionScreen} />
             <Stack.Screen name="Settings" component={SettingsScreen} />
             <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
+            <Stack.Screen name="KanaScreen" component={KanaScreen} />
+            
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
