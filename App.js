@@ -16,6 +16,7 @@ import ProgressionScreen from "./screens/ProgressionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import Syllabaire from "./screens/Syllabaire.js";
 import ScoreScreen from "./screens/ScoreScreen";
+import UserSettingsScreen from "./screens/UserSettingsScreen.js";
 
 
 // Google Font
@@ -89,6 +90,7 @@ export default function App() {
             <Stack.Screen name="Progression" component={ProgressionScreen} />
             <Stack.Screen name="Score" component={ScoreScreen} />
             <Stack.Screen name="Settings" component={SettingsScreen} />
+            <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
