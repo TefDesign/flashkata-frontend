@@ -78,7 +78,7 @@ const ChallengeScreen = ({ navigation }) => {
       </TouchableOpacity>
       <Separator />
       <View style={styles.sliderContainer}>
-        <Text style={styles.text}>Activer la limite d'apprentissage</Text>
+        <Text style={styles.text}>Activer le chrono</Text>
         <SwitchOption value={activeLimit} onChange={setActiveLimit} />
         {activeLimit && <SliderRange mode="time" />}
       </View>

@@ -1,22 +1,33 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
-import HeaderSecondary from "../components/HeaderSecondary";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+
 import Button from "../components/Button";
 import theme from "../styles/themeLight";
 import LogoIcon from "../assets/icons/logo.svg";
 import ArrowBackIcon from "../assets/icons/arrowback.svg";
-import { SafeAreaView } from "react-native-safe-area-context";
+
+
 import Settings from "../components/Settings";
+import HeaderSecondary from "../components/HeaderSecondary";
+import CardSimple from "../components/CardSimple";
+
+import { getSvgRequire } from "../utils/svgMap";
+import { cards } from "../datas/datas";
+// import { cards as cardsDatas } from "../datas/datas";
+
 
 const QuizzScreen = () => {
 
   const navigation = useNavigation();
+  
 
-  const baseOptions = [
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-  ];
+
+  const baseOptions = cards.map(item => item.name);
+
+  
 
 
   const [options, setOptions] = useState(baseOptions); 
@@ -114,7 +125,7 @@ const QuizzScreen = () => {
                 setScore(0);
                 setQuestionNumber(1);
                 setPicked(null);
-                setOptions(shuffle(baseOptions)); 
+                newQuestion(true);
                 }}>
               <Text style={styles.txtFin2}>Nouvelle série</Text>
           </TouchableOpacity>
@@ -134,7 +145,7 @@ const QuizzScreen = () => {
       </View>
 
       <Text style={styles.instructionsText}> Ecoute et trouve le bon kata </Text>
-      <Text style={styles.correctAnserText}> à trouver "{correctAnswer}" </Text>
+      <Text style={styles.correctAnserText}>"{correctAnswer}" </Text>
       
       <View style={styles.questionNumberView}>
         <Text style={styles.questionNumberText}>
@@ -144,7 +155,9 @@ const QuizzScreen = () => {
       </View>
 
       <View style={styles.AnswerContainer}>
-        {options.map((opt) => {
+        {options.map((opt, idx) => {
+          const card = cards.find(c => c.name === opt);
+          if (!card) return null;
           const isPicked = picked === opt;
           const isCorrect = opt === correctAnswer;
           const bg =
@@ -156,12 +169,18 @@ const QuizzScreen = () => {
 
           return (
             <TouchableOpacity
-              key={opt}
+              key={opt  + "-" + idx}
               style={[styles.options, { backgroundColor: bg, marginTop: 10 }]}
               activeOpacity={0.9}
               onPress={() => handlePick(opt)}
             >
-              <Text style={styles.optionsText}>{opt}</Text>
+              <CardSimple 
+              {...card} 
+              bgColor={bg}
+              isPicked={isPicked}
+              isCorrect={isCorrect}
+              />
+
             </TouchableOpacity>
           );
         })}
@@ -233,6 +252,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+  },
+  CardSimpleContainer:{
+
   },
   options:{
     gap: "5%",
