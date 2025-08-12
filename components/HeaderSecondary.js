@@ -1,7 +1,7 @@
 import { View, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import theme from "../styles/themeLight";
 import ArrowBackIcon from "../assets/icons/arrowback.svg";
-import Avatar from "./Avatar";
+import AvatarIcon from "../assets/icons/avatar";
 import { useNavigation } from "@react-navigation/native";
 import useThemedStyles from "../hooks/useThemedStyles";
 
@@ -36,7 +36,11 @@ const HeaderSecondary = ({ isArrowBack = true, isAvatar = true }) => {
         </TouchableOpacity>
       )}
 
-      {isAvatar && <Avatar size={40} />}
+      {isAvatar &&( 
+        <TouchableOpacity onPress={() => navigation.navigate('UserSettings')}>
+          <AvatarIcon width={40} height={40} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
