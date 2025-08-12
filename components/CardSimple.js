@@ -8,24 +8,29 @@ import { getSvgRequire } from "../utils/svgMap";
 import { useEffect, useState } from "react";
 
 const CardSimple = (props) => {
-  const { image, name, word } = props;
-  const SvgComponent = getSvgRequire(image);
-  const [hasValidated, setHasValidated] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
 
-  // Code pour tester pendant le développement. On supprimera une fois que la logique sera en place.
-  useEffect(() => {
-    setHasValidated(false);
-    setIsCorrect(false);
-  }, []);
+  const { 
+    image, 
+    name, 
+    word, 
+    bgColor = "#f0f0f0", 
+    isCorrect, 
+    isPicked } = props;
+  const SvgComponent = getSvgRequire(image);
+  
+  const [hasValidated, setHasValidated] = useState(false);
+
+
+
 
   return (
-    <View
-      style={[
+    
+    <View style={[
         styles.container,
         {
+          borderColor: isPicked ? "transparent" : theme.colors.borderCard,
           backgroundColor: !hasValidated
-            ? theme.colors.backgroundOptions
+            ? bgColor
             : isCorrect && hasValidated
             ? theme.colors.success
             : theme.colors.error,
@@ -35,13 +40,19 @@ const CardSimple = (props) => {
       <View style={styles.content}>
         {SvgComponent && (
           <SvgComponent
-            color={hasValidated ? "#ffffff" : theme.colors.text}
-            width={300}
-            height={300}
+            color={isPicked ? "#ffffff" : theme.colors.text}
+            width={isPicked ? 120 : 80}
+            height={isPicked ? 120 : 80}
           />
         )}
-        {name && <Text style={styles.title}>{name}</Text>}
-        {word && <Text style={styles.word}>{word}</Text>}
+        {/* {image && <Text style={[
+        styles.title,
+        {
+          color: isPicked ? "theme.colors.borderCard," : "#ffffff",
+          fontSize: isPicked ? 150 : 100,
+        },
+      ]}>a</Text>} */}
+        {/* {word && <Text style={styles.word}>{word}</Text>} */}
       </View>
     </View>
   );
@@ -51,8 +62,10 @@ export default CardSimple;
 
 const styles = StyleSheet.create({
   container: {
-    width: Dimensions.get("window").width / 1.2,
-    height: Dimensions.get("window").height / 1.7,
+    // width: Dimensions.get("window").width / 1.2,
+    // height: Dimensions.get("window").height / 1.7,
+    width: "100%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
     borderColor: theme.colors.borderCard,
@@ -63,11 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    //backgroundColor: "#ffffff",
-  },
-  title: {
-    fontSize: 300,
-    color: "#ffffff",
   },
   text: {
     textAlign: "center",
