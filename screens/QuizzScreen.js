@@ -37,14 +37,6 @@ const QuizzScreen = () => {
     setQuestionNumber(n => resetNumber ? 1 : n); // restart
   }
 
-  const shuffle = (arr) => {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  };
 
   function getRandomOptions() {
     const shuffled = [...baseOptions].sort(() => Math.random() - 0.5);
@@ -53,6 +45,18 @@ const QuizzScreen = () => {
 
   useEffect(() => {
     setOptions(getRandomOptions());
+
+    const newCorrect = baseOptions[Math.floor(Math.random() * baseOptions.length)];
+    setCorrectAnswer(newCorrect);
+    setOptions(getRandomOptions(newCorrect));
+
+    function getRandomOptions(correct) {
+      const otherLetters = baseOptions.filter(l => l !== correct);
+      const shuffledOthers = [...otherLetters].sort(() => Math.random() - 0.5);
+      const randomOthers = shuffledOthers.slice(0, 3); // 3 autres lettres
+      const finalOptions = [correct, ...randomOthers].sort(() => Math.random() - 0.5);
+      return finalOptions;
+    }
   }, []);
 
   const nextQuizzAuto = 600;
@@ -99,8 +103,7 @@ const QuizzScreen = () => {
                 setFinished(false);
                 setScore(0);
                 setQuestionNumber(1);
-                setPicked(null); 
-                }}>
+                setPicked(null); }}>
               <Text style={styles.txtFin1}>Même série</Text>
           </TouchableOpacity>
 
@@ -111,7 +114,7 @@ const QuizzScreen = () => {
                 setScore(0);
                 setQuestionNumber(1);
                 setPicked(null);
-                newQuestion(true);
+                setOptions(shuffle(baseOptions)); 
                 }}>
               <Text style={styles.txtFin2}>Nouvelle série</Text>
           </TouchableOpacity>
@@ -171,7 +174,7 @@ const QuizzScreen = () => {
         onPress={() => {  console.log("Mute") }}
         >
         <Text style={styles.muteText}>
-          chuuuuuut
+          LissenneIcon
         </Text>
       </TouchableOpacity>
     <Settings />
