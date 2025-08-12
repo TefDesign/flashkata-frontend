@@ -22,7 +22,6 @@ export default function SignInScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleSignin = () => {
-    console.log('signin')
     fetch(`${API_URL}/users/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

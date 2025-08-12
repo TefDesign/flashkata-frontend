@@ -11,37 +11,44 @@ import LogoIcon from "../assets/icons/logo.svg";
 import GoogleIcon from "../assets/icons/google.svg";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../reducers/users";
 import { API_URL } from "@env";
 
-export default function Syllabaire({ navigation }) {
+export default function Syllabaire({ navigation, route }) {
+
+  const { type } = route.params;
+
   const dispatch = useDispatch();
-  const user = useSelector((state) => state)
+  const user = useSelector((state) => state.users)
 
-  console.log(user)
+  const [progress, setProgress] = useState([])
 
 
-  /*
-  const getProgress = () => {
-    
-    fetch(`${API_URL}/userProgress/signup`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result) {
-          dispatch(login({ token: data.token, userName }));
-          navigation.navigate("MainMenu");
-        } else if (data.error) {
-          alert(data.error);
-        }
-      });
+  console.log(type)
+
+  const getProgress = async () => {
+    try {
+      console.log("debut", API_URL)
+      const resp = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${type}`)
+
+      const data = await resp.json()
+      console.log('resp : ', data)
+
+      setProgress(data.data)
+    } catch (error) {
+      console.log('Erreur fetch:', error)
+    }
   };
 
+  useEffect(() => {
+    getProgress()
+  }, [type]) // Se déclenche quand 'type' change
 
-  */
-
-
+  const list = progress?.map((val, index) =>
+    <Pressable key={index}><Text>{val.katakanaId?.name || val.hiraganaId?.name}</Text></Pressable>
+  ) || []
 
   return (
     <KeyboardAvoidingView
@@ -49,7 +56,7 @@ export default function Syllabaire({ navigation }) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View>
-        <Pressable><Text>aa</Text></Pressable>
+        {list}
       </View>
 
     </KeyboardAvoidingView>

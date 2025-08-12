@@ -14,7 +14,7 @@ import ReviewAllScreen from "./screens/ReviewAllScreen";
 import ChallengeScreen from "./screens/ChallengeScreen";
 import ProgressionScreen from "./screens/ProgressionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import Syllabaire from "./screens/Syllabaire.js";
+import SyllabaireScreen from "./screens/SyllabaireScreen";
 
 // Google Font
 import { useFonts } from "expo-font";
@@ -86,6 +86,7 @@ export default function App() {
             <Stack.Screen name="Challenge" component={ChallengeScreen} />
             <Stack.Screen name="Progression" component={ProgressionScreen} />
             <Stack.Screen name="Settings" component={SettingsScreen} />
+            <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
