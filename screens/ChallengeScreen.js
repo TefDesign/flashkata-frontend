@@ -70,7 +70,7 @@ const ChallengeScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("")}>
         <Text style={styles.subMenu}>Katakana</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Quizz")}>
         <Text style={styles.subMenu}>Tout</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Score")}>
