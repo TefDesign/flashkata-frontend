@@ -6,7 +6,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import useThemedStyles from "../hooks/useThemedStyles";
 
@@ -28,33 +28,49 @@ const LearnScreen = () => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const swiperRef = useRef(null);
 
-  const handlePress = () => {
-    isFlippedArray[currentCardIndex].value =
-      !isFlippedArray[currentCardIndex].value;
-  };
+  const playerShuffleCard = useAudioPlayer(
+    require("../assets/effects/shuffle.wav")
+  );
+  const playerFlipCard = useAudioPlayer(require("../assets/effects/flip.mp3"));
+  const playerSwipeCard = useAudioPlayer(
+    require("../assets/effects/swipe.mp3")
+  );
 
-  // index de la carte courante etc. (déjà dans ton fichier)
+  useEffect(() => {
+    playerShuffleCard.seekTo(0);
+    playerShuffleCard.play();
+  }, []);
 
   // Source = mp3 de la carte courante (pas de hook ici)
   const current = cardsDatas[currentCardIndex];
-  const source = getSound(current.sound); // require("../assets/sounds/xxx.mp3")
+  const sourceKana = getSound(current.sound); // require("../assets/sounds/xxx.mp3")
 
-  // Hook AU NIVEAU DU COMPOSANT (pas dans renderCard)
-  const player = useAudioPlayer(source);
+  const playerKana = useAudioPlayer(sourceKana);
+
+  const handlePress = () => {
+    isFlippedArray[currentCardIndex].value =
+      !isFlippedArray[currentCardIndex].value;
+    playerFlipCard.seekTo(0);
+    playerFlipCard.play();
+  };
 
   const handleSound = async () => {
     // Avec expo-audio, la position ne se réinitialise pas toute seule :
     // on remet au début puis on joue (cf. note de la doc).
-    await player.seekTo(0);
-    await player.play();
+    await playerKana.seekTo(0);
+    await playerKana.play();
   };
 
   const doneCard = (cardIndex) => {
     console.log("Done", cardIndex);
+    playerSwipeCard.seekTo(0);
+    playerSwipeCard.play();
     isFlippedArray[cardIndex].value = false;
   };
   const keepCard = (cardIndex) => {
     console.log("Keep card", cardIndex);
+    playerSwipeCard.seekTo(0);
+    playerSwipeCard.play();
     isFlippedArray[cardIndex].value = false;
   };
 
