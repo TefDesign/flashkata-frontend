@@ -49,7 +49,6 @@ const UserSettingsScreen = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data : ", data);
         if (data.result) {
           alert("Mot de passe modifié");
           setNewPassword("");
