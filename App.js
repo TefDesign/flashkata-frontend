@@ -16,7 +16,7 @@ import ProgressionScreen from "./screens/ProgressionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SyllabaireScreen from "./screens/SyllabaireScreen";
 import KanaScreen from "./screens/KanaScreen";
-import Syllabaire from "./screens/Syllabaire.js";
+import Syllabaire from "./screens/SyllabaireScreen.js";
 import ScoreScreen from "./screens/ScoreScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen.js";
 import QuizzScreen from "./screens/QuizzScreen.js";

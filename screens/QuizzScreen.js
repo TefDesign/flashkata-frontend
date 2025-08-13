@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
 import Button from "../components/Button";
 import theme from "../styles/themeLight";
 import useThemedStyles from "../hooks/useThemedStyles";
@@ -17,22 +16,31 @@ import HeaderSecondary from "../components/HeaderSecondary";
 import CardSimple from "../components/CardSimple";
 
 import { getSvgRequire } from "../utils/svgMap";
-import { cards } from "../datas/datas";
+// import { cards } from "../datas/datas";
 // import { cards as cardsDatas } from "../datas/datas";
+
 
 
 const QuizzScreen = () => {
 
-  const navigation = useNavigation();
+  
 
-  // On recupère la valeur et si activé de Challenge screen
+  const navigation = useNavigation();
   const { params } = useRoute();
+
+  console.log("params")
+
+  
+
+  // On recupère la valeur du slider/timer et si activé de Challenge screen
   const timeoutMinutes = params?.timeoutMinutes ?? 1;
   const limitEnabled = params?.limitEnabled ?? false;
   const TOTAL_MS = timeoutMinutes * 60_000;
 
 // On définit la base des options à faire apparaitre
+  // const [cards, setCards] = useState(cards);
   const baseOptions = cards.map(item => item.name);
+
 
   const [questionNumber, setQuestionNumber] = useState(1);
   const [correctAnswer, setCorrectAnswer] = useState(null);
@@ -94,6 +102,68 @@ const QuizzScreen = () => {
     const shuffled = [...baseOptions].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 4);
   }
+
+  // useEffect(() => {
+  //   let abort = false;
+
+  //   async function fetchCards() {
+  //     try {
+  //       const [id, token] = await Promise.all([
+  //         AsyncStorage.getItem("userId"),
+  //         AsyncStorage.getItem("token"),
+  //       ]);
+
+  //       if (!id || !token) {
+  //         console.warn("Identifiants manquants pour /getCards");
+  //         return;
+  //       }
+
+  //       const body = {
+  //         nbSlider: nbSlider,
+  //         kataType: challengeType,
+  //         filterType: filterType,
+  //         id,
+  //         token,
+  //         isDevMode: isDevMode,
+  //       };
+
+  //       const res = await fetch(`${API_URL}/getCards`, {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(body),
+  //       });
+
+  //       const json = await res.json();
+
+  //       if (!json?.result) {
+  //         console.warn("getCards KO:", json?.message || json?.error);
+  //         return; // fallback local
+  //       }
+
+  //       // ✅ json.data = [kataDoc, ...] si isDevMode=false (cf. route) 
+  //       const apiCards = json.data;
+
+  //       // ✅ normalise si besoin pour correspondre à CardSimple / logique existante
+  //       // suppose que chaque doc kata possède au moins: { name, ... }
+  //       if (!abort && Array.isArray(apiCards) && apiCards.length > 0) {
+  //         setAvailableCards(apiCards);
+  //         // relance une question propre sur le nouveau pool
+  //         setScore(0);
+  //         setPicked(null);
+  //         setFinished(false);
+  //         setQuestionNumber(1);
+  //         setOptions([]); // reset visuel rapide
+  //         // mini délai pour laisser React recalculer baseOptions
+  //         setTimeout(() => newQuestion(true), 0);
+  //       }
+  //     } catch (e) {
+  //       console.warn("Erreur fetch /getCards:", e);
+  //     }
+  //   }
+
+  //   fetchCards();
+  //   return () => { abort = true; };
+  // }, [challengeType]);
 
   useEffect(() => {
     startTotalTimer();
