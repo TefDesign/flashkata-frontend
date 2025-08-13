@@ -6,8 +6,61 @@ import Settings from "../components/Settings";
 import HeaderSecondary from "../components/HeaderSecondary";
 import RowChallenge from "../components/RowChallenge";
 import useThemedStyles from "../hooks/useThemedStyles";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { API_URL } from "@env";
 
 const ScoreScreen = () => {
+
+  const user = useSelector((state) => state.users);
+
+  const [scores, setScores] = useState({
+    hiraganaChallenge: {},
+    katakanaChallenge: {},
+    AllChallenge: {},
+  });
+
+  useEffect(() => {
+    fetch(`${API_URL}/users/getUser/${user.id}/${user.token}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          setScores({
+            hiraganaChallenge: data.user.hiraganaChallenge,
+            katakanaChallenge: data.user.katakanaChallenge,
+            AllChallenge: data.user.AllChallenge,
+          });
+        }
+      });
+  }, []);
+
+  const showChallengeScores = (title, data) => {
+    const result = [];
+    for (const [key, value] of Object.entries(data)) {
+      if (value > 0) {
+        result.push({ key, value });
+      }
+    }
+
+    return (
+      <View style={styles.challengeResults}>
+        <Text style={styles.textLarge}>{title}</Text>
+
+        {result.length === 0 ? (
+          <Text style={styles.text}>Pas encore de scores à afficher !</Text>
+        ) : (
+          result.map(({ key, value }) => (
+            <RowChallenge
+              key={key}
+              time={key}
+              nbKana={value}
+            />
+          ))
+        )}
+      </View>
+    );
+  };
+
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
       container: {
@@ -30,6 +83,12 @@ const ScoreScreen = () => {
       textLarge: {
         fontFamily: theme.fonts.outfitRegular,
         fontSize: theme.fontSize.textLarge,
+        alignSelf: "flex-start",
+        color: theme.colors.text,
+      },
+      text: {
+        fontFamily: theme.fonts.outfitRegular,
+        fontSize: theme.fontSize.text,
         alignSelf: "flex-start",
         color: theme.colors.text,
       },
@@ -59,45 +118,9 @@ const ScoreScreen = () => {
       <Text style={styles.title}>Score</Text>
       <View style={styles.scrollContainer}>
         <ScrollView showsVerticalScrollIndicator={true}>
-          <View style={styles.challengeResults}>
-            <Text style={styles.textLarge}>Hiragana</Text>
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-          </View>
-          <View style={styles.challengeResults}>
-            <Text style={styles.textLarge}>Katakana</Text>
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-          </View>
-          <View style={styles.challengeResults}>
-            <Text style={styles.textLarge}>Tous</Text>
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-            <RowChallenge time="0" nbKana="0" />
-          </View>
+          {showChallengeScores("Hiragana", scores.hiraganaChallenge)}
+          {showChallengeScores("Katakana", scores.katakanaChallenge)}
+          {showChallengeScores("Tous", scores.AllChallenge)}
         </ScrollView>
       </View>
       <Settings />

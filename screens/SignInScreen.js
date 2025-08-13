@@ -36,8 +36,8 @@ export default function SignInScreen({ navigation }) {
             login({ token: data.token, username: data.userName, id: data.id })
           );
           navigation.navigate("MainMenu");
-        } else if (data.error) {
-          alert(data.error);
+        } else if (data.message) {
+          alert(data.message);
         }
       });
   };
