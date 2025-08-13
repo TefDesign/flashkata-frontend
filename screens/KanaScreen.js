@@ -5,7 +5,7 @@ import {
   Pressable,
   Dimensions
 } from "react-native";
-import theme from "../styles/themeLight";
+import { SafeAreaView } from "react-native-safe-area-context";
 import LogoIcon from "../assets/icons/logo.svg";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -172,10 +172,14 @@ export default function KanaScreen({ navigation, route }) {
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HeaderSecondary />
       <View style={styles.logo}>
-        <LogoIcon width={200} height={200} />
+        <LogoIcon
+          width={256}
+          height={136}
+          style={{ color: theme.colors.text }}
+        />
       </View>
 
       <View style={styles.cardContainer}>
@@ -212,6 +216,6 @@ export default function KanaScreen({ navigation, route }) {
           <Text style={styles.textLarge}>Erreur : <Text style={{ color: "red" }}>{nbWrong}</Text> fois</Text>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };

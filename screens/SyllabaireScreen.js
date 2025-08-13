@@ -6,6 +6,7 @@ import {
   FlatList,
   Dimensions
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import theme from "../styles/themeLight";
 import LogoIcon from "../assets/icons/logo.svg";
 import Input from "../components/Input";
@@ -69,9 +70,6 @@ export default function Syllabaire({ navigation, route }) {
     })
   );
 
-
-
-
   const { type } = route.params;
 
   const dispatch = useDispatch();
@@ -85,12 +83,8 @@ export default function Syllabaire({ navigation, route }) {
     return `${paddedIndex}-${kanaType}-${kanaName}`;
   };
 
-
-
   const getProgress = async () => {
     try {
-
-      console.log("debut", API_URL)
       const resp = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${type}`)
       let data = await resp.json()
       data = data.data
@@ -119,8 +113,6 @@ export default function Syllabaire({ navigation, route }) {
           return name === kanaName;
         }) || null; // null si kana non trouvé
       });
-
-      console.log('Données triées avec cases vides:', sortedProgress);
       setProgress(sortedProgress)
     } catch (error) {
       console.log('Erreur fetch:', error)
@@ -143,9 +135,6 @@ export default function Syllabaire({ navigation, route }) {
     if (nbViews < 1) { return 0.1 }
     else { return 1 }
   }
-
-
-
 
   useEffect(() => {
     getProgress()
@@ -189,11 +178,15 @@ export default function Syllabaire({ navigation, route }) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HeaderSecondary />
-      <View style={styles.logo}>
-        <LogoIcon width={200} height={200} />
-      </View>
+        <View style={styles.logo}>
+          <LogoIcon
+            width={256}
+            height={136}
+            style={{ color: theme.colors.text }}
+          />
+        </View>
       <Text style={styles.title}>{type}</Text>
       <FlatList
         data={progress}
@@ -204,7 +197,7 @@ export default function Syllabaire({ navigation, route }) {
         columnWrapperStyle={styles.row}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
