@@ -14,6 +14,9 @@ import HeaderSecondary from "../components/HeaderSecondary";
 import Card from "../components/Card.js";
 import KataRead from "../components/KataRead.js";
 import KataWrite from "../components/KataWrite.js";
+import ButtonIcon from "../components/ButtonIcon";
+import flip from "../assets/icons/flip";
+import soundRed from "../assets/icons/soundRed";
 
 import { useSharedValue } from "react-native-reanimated";
 import Swiper from "react-native-deck-swiper";
@@ -112,9 +115,10 @@ const LearnScreen = () => {
       },
       buttonBottomContainer: {
         flex: 1,
+        flexDirection: "row",
         position: "absolute",
         bottom: 50,
-        justifyContent: "center",
+        justifyContent: "space-around",
         alignItems: "center",
         width: Dimensions.get("window").width,
       },
@@ -160,20 +164,8 @@ const LearnScreen = () => {
         stackSeparation={25}
       />
       <View style={styles.buttonBottomContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          title="Flip card"
-          onPress={handlePress}
-        >
-          <Text>Flip card</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          title="Sound"
-          onPress={handleSound}
-        >
-          <Text>Play</Text>
-        </TouchableOpacity>
+        <ButtonIcon icon={flip} onPress={handlePress} />
+        <ButtonIcon icon={soundRed} onPress={handleSound} />
       </View>
     </SafeAreaView>
   );
