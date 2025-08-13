@@ -22,7 +22,7 @@ const ProgressionScreen = ({ navigation }) => {
 
     const getProgress = async () => {
       try {
-        console.log("debut", API_URL)
+
         const respKatakana = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${"katakana"}`)
         const dataKatakana = await respKatakana.json()
         const respHiragana = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${'hiragana'}`)

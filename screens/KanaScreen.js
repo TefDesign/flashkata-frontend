@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import theme from "../styles/themeLight";
 import LogoIcon from "../assets/icons/logo.svg";
-import Input from "../components/Input";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { API_URL } from "@env";
@@ -62,7 +61,7 @@ export default function KanaScreen({ navigation, route }) {
   const makeFavorite = async () => {
     try {
     console.log('aaa')
-    const resp = await fetch(`http://192.168.1.62:3000/progress/kataProgress/modify`, {
+    const resp = await fetch(`${API_URL}/progress/kataProgress/modify`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
