@@ -29,11 +29,11 @@ const CardSimple = (props) => {
         styles.container,
         {
           borderColor: isPicked ? "transparent" : theme.colors.borderCard,
-          backgroundColor: !hasValidated
+          backgroundColor: !isPicked
             ? bgColor
-            : isCorrect && hasValidated
-            ? theme.colors.success
-            : theme.colors.error,
+            : isCorrect && isPicked
+            ? bgColor
+            : bgColor
         },
       ]}
     >
@@ -64,8 +64,7 @@ const styles = StyleSheet.create({
   container: {
     // width: Dimensions.get("window").width / 1.2,
     // height: Dimensions.get("window").height / 1.7,
-    width: "100%",
-    height: "100%",
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     borderColor: theme.colors.borderCard,
