@@ -50,9 +50,9 @@ const QuizzScreen = () => {
 
   const nextQuizzAuto = limitEnabled ? 300 : 500;
 
-  const scale = useRef(new Animated.Value(1)).current;
-  const shake = useRef(new Animated.Value(0)).current;
-  const flash = useRef(new Animated.Value(0)).current;
+  // const scale = useRef(new Animated.Value(1)).current;
+  // const shake = useRef(new Animated.Value(0)).current;
+  // const flash = useRef(new Animated.Value(0)).current;
 
   const startTotalTimer = () => {
     if (totalTimerRef.current) clearTimeout(totalTimerRef.current);
@@ -77,10 +77,10 @@ const QuizzScreen = () => {
     }, 200);
   };
 
-  const shakeX = shake.interpolate({
-    inputRange: [0, 1, 2, 3, 4],
-    outputRange: [0, -8, 8, -8, 0],
-  });
+  // const shakeX = shake.interpolate({
+  //   inputRange: [0, 1, 2, 3, 4],
+  //   outputRange: [0, -8, 8, -8, 0],
+  // });
 
   function newQuestion(resetNumber = false) {
     const opts = getRandomOptions();
@@ -127,25 +127,28 @@ const QuizzScreen = () => {
 
     if (opt === correctAnswer){
       setScore((s) => s + 1)
-      Animated.parallel([
-        Animated.sequence([
-          Animated.spring(scale, { toValue: 1.08, friction: 3, tension: 120, useNativeDriver: true }),
-          Animated.spring(scale, { toValue: 1, friction: 3, tension: 120, useNativeDriver: true }),
-        ]),
-        Animated.sequence([
-          Animated.timing(flash, { toValue: 1, duration: 120, useNativeDriver: true }),
-          Animated.timing(flash, { toValue: 0, duration: 180, useNativeDriver: true }),
-        ]),
-      ]).start();
-    } else {
-      shake.setValue(0);
-        Animated.parallel([
-        Animated.timing(shake, { toValue: 4, duration: 240, useNativeDriver: true }),
-        Animated.sequence([
-        Animated.timing(flash, { toValue: 1, duration: 120, useNativeDriver: true }),
-        Animated.timing(flash, { toValue: 0, duration: 180, useNativeDriver: true }),
-    ]),
-  ]).start();
+   
+      // Animated.parallel([
+      //   Animated.sequence([
+      //     Animated.spring(scale, { toValue: 1.08, friction: 3, tension: 120, useNativeDriver: true }),
+      //     Animated.spring(scale, { toValue: 1, friction: 3, tension: 120, useNativeDriver: true }),
+      //   ]),
+      //   Animated.sequence([
+      //     Animated.timing(flash, { toValue: 1, duration: 120, useNativeDriver: true }),
+      //     Animated.timing(flash, { toValue: 0, duration: 180, useNativeDriver: true }),
+      //   ]),
+      // ])
+      // .start();
+  //   } else {
+  //     shake.setValue(0);
+  //       Animated.parallel([
+  //       Animated.timing(shake, { toValue: 4, duration: 240, useNativeDriver: true }),
+  //       Animated.sequence([
+  //       Animated.timing(flash, { toValue: 1, duration: 120, useNativeDriver: true }),
+  //       Animated.timing(flash, { toValue: 0, duration: 180, useNativeDriver: true }),
+  //   ]),
+  // ]).start();
+  //   }
     }
 
     setTimeout(() => {
@@ -255,21 +258,21 @@ const QuizzScreen = () => {
               activeOpacity={0.9}
               onPress={() => handlePick(opt)}
             >
-            <Animated.View
+            {/* <Animated.View
                 style={{
                   flex: 1,
                   alignSelf: isPicked ? "stretch" : "stretch",
                   transform: isPicked
                     ? [{ scale }, { translateX: shakeX }]
                     : [{ scale: 1 }, { translateX: 0 }],
-                }}>
+                }}> */}
               <CardSimple 
               {...card} 
               bgColor={bg}
               isPicked={isPicked}
               isCorrect={isCorrect}
               />
-              </Animated.View>
+              {/* </Animated.View> */}
             </TouchableOpacity>
           );
         })}

@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     // width: Dimensions.get("window").width / 1.2,
     // height: Dimensions.get("window").height / 1.7,
     flex: 1,
+    alignSelf: "stretch",
     alignItems: "center",
     justifyContent: "center",
     borderColor: theme.colors.borderCard,
