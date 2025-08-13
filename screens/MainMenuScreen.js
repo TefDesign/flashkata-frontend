@@ -58,6 +58,9 @@ const MainMenuScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("Progression")}>
         <Text style={styles.menu}>Progression</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Learn")}>
+        <Text style={styles.menu}>Apprendre</Text>
+      </TouchableOpacity>
       <Settings />
     </SafeAreaView>
   );

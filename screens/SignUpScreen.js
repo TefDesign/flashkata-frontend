@@ -34,8 +34,8 @@ export default function SignUpScreen({ navigation }) {
             login({ token: data.token, username: data.userName, id: data.id })
           );
           navigation.navigate("MainMenu");
-        } else if (data.message) {
-          alert(data.message);
+        } else if (data.error) {
+          alert(data.error);
         }
       });
   };

@@ -156,3 +156,7 @@ export const HIRAGANA_SOUNDS = {
   e_particle: require("../assets/sounds/e_particle.mp3"),
   o_particle: require("../assets/sounds/o_particle.mp3"),
 };
+
+export function getSound(name) {
+  return HIRAGANA_SOUNDS[name] || null;
+}

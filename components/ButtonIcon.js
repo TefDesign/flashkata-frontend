@@ -2,12 +2,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import theme from "../styles/themeLight";
 
 const ButtonIcon = (props) => {
-  const { icon: IconComponent } = props;
+  const { icon: IconComponent, onPress } = props;
 
   return (
     <TouchableOpacity style={styles.base}>
       <View style={styles.btnContent}>
-        <IconComponent width={40} height={40} style={styles.icon} />
+        <IconComponent
+          width={40}
+          height={40}
+          style={styles.icon}
+          onPress={onPress}
+        />
       </View>
     </TouchableOpacity>
   );

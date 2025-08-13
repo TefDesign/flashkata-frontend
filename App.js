@@ -20,8 +20,7 @@ import SyllabaireScreen from "./screens/SyllabaireScreen";
 import KanaScreen from "./screens/KanaScreen";
 import ScoreScreen from "./screens/ScoreScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen.js";
-
-
+import LearnScreen from "./screens/LearnScreen.js";
 
 // Google Font
 import { useFonts } from "expo-font";
@@ -99,7 +98,7 @@ export default function App() {
             <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
             <Stack.Screen name="KanaScreen" component={KanaScreen} />
             <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
-
+            <Stack.Screen name="Learn" component={LearnScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
