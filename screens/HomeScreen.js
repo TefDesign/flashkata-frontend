@@ -1,12 +1,28 @@
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import theme from "../styles/themeLight";
 import LogoIcon from "../assets/icons/logo.svg";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function HomeScreen({ navigation }) {
+  const user = useSelector((state) => state.users);
+
+  useEffect(() => {
+    if (user?.token) {
+      navigation.navigate("MainMenu");
+    } else {
+      navigation.navigate("Home");
+    }
+  }, [user?.token, navigation]);
+
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
-        <LogoIcon width={284} height={150} />
+        <LogoIcon
+          width={284}
+          height={150}
+          style={{ color: theme.colors.text }}
+        />
       </View>
       <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
         <Text style={styles.title}>S'enregistrer</Text>

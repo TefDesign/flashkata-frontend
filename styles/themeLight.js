@@ -11,6 +11,13 @@ const light = {
     border: "#D6D6D6",
     borderCard: "#FEBFBF",
     dark: "#0C0C2E",
+    switchBgOn: "#5a5a9dff",
+    switchBgOff: "#8686a8ff",
+    switchCursor: "#0C0C2E",
+    sliderCursor: "#414151ff",
+    lightIcon: "#e6c935ff",
+    darkIcon: "#3b3b75ff",
+    hiscore: "#1E5C21",
   },
   spacing: {
     small: 8,

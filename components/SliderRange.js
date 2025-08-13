@@ -2,27 +2,51 @@ import { View, Text, StyleSheet } from "react-native";
 import { Slider } from "@react-native-assets/slider";
 import { useState } from "react";
 import theme from "../styles/themeLight";
+import useThemedStyles from "../hooks/useThemedStyles";
 
 const SliderRange = (props) => {
   const { mode = "cards" } = props;
 
-  const [sliderValue, setSliderValue] = useState(5);
+  const [sliderValue, setSliderValue] = useState(mode === "cards" ? 5 : 1);
 
   const getMode = () => {
     if (mode === "time") {
-      return `${sliderValue} min`;
+      return {
+        display: `${sliderValue} min`,
+        min: 1,
+        max: 10,
+      };
     } else if (mode === "cards") {
-      return `${sliderValue} cartes`;
+      return {
+        display: `${sliderValue} cartes`,
+        min: 5,
+        max: 15,
+      };
     }
-    return `${sliderValue}`;
   };
+
+  const { display, min, max } = getMode();
+  const styleLeft = ((sliderValue - min) / (max - min)) * 300 - 25;
+
+  const [theme, styles] = useThemedStyles((theme) =>
+    StyleSheet.create({
+      container: {
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      slider: {
+        width: 300,
+        height: 40,
+      },
+    })
+  );
 
   return (
     <View style={styles.container}>
       <Text
         style={{
           position: "absolute",
-          left: ((sliderValue - 5) / (15 - 5)) * 300 - 25,
+          left: styleLeft,
           top: -16,
           fontSize: theme.fontSize.small,
           fontWeight: "bold",
@@ -30,34 +54,23 @@ const SliderRange = (props) => {
           textAlign: "center",
         }}
       >
-        {getMode()}
+        {display}
       </Text>
       <Slider
         style={styles.slider}
-        minimumValue={5}
-        maximumValue={15}
+        minimumValue={min}
+        maximumValue={max}
         onValueChange={(value) => setSliderValue(value)}
         step={1}
         value={sliderValue}
         minimumTrackTintColor={theme.colors.success}
         maximumTrackTintColor={theme.colors.border}
-        thumbTintColor={theme.colors.text}
+        thumbTintColor={theme.colors.sliderCursor}
         trackHeight={10}
         thumbSize={26}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  slider: {
-    width: 300,
-    height: 40,
-  },
-});
 
 export default SliderRange;
