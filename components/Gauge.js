@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   container: {
     width: Dimensions.get("window").width - theme.spacing.large * 2,
     backgroundColor: theme.colors.background,
-    height: 20,
+    height: 30,
     borderRadius: theme.borderRadius.base,
     borderWidth: 1,
     borderColor: theme.colors.border,

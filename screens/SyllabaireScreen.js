@@ -2,10 +2,9 @@ import {
   StyleSheet,
   Text,
   View,
-  KeyboardAvoidingView,
-  Platform,
   Pressable,
-  FlatList
+  FlatList,
+  Dimensions
 } from "react-native";
 import theme from "../styles/themeLight";
 import LogoIcon from "../assets/icons/logo.svg";
@@ -14,8 +13,64 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { API_URL } from "@env";
 import { svgMap, getSvgRequire } from "../utils/svgMap";
+import HeaderSecondary from "../components/HeaderSecondary";
+import useThemedStyles from "../hooks/useThemedStyles";
+
 
 export default function Syllabaire({ navigation, route }) {
+
+
+  const [theme, styles] = useThemedStyles((theme) =>
+    StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        alignItems: "center",
+        paddingHorizontal: theme.spacing.large,
+        height: Dimensions.get("window").height,
+      },
+      title: {
+        fontFamily: theme.fonts.staatliches,
+        fontSize: theme.fontSize.menu,
+        margin: theme.spacing.medium,
+        marginBottom: theme.spacing.large,
+        color: theme.colors.text,
+      },
+      kanaCard: {
+        width: '19%',
+        aspectRatio: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 8,
+        margin: 2,
+        borderWidth: 1.5,
+        borderRadius: 8,
+      },
+      emptyCell: {
+        width: '19%',
+        aspectRatio: 1,
+        margin: 2,
+        backgroundColor: "transparent",
+      },
+      fallbackContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      kanaText: {
+        color: theme.colors.text,
+        fontSize: 15,
+        fontFamily: theme.fonts?.outfit || "System",
+        marginTop: 5,
+        textAlign: "center",
+      },
+      gridContainer: {
+        padding: 5,
+      },
+    })
+  );
+
+
+
 
   const { type } = route.params;
 
@@ -39,7 +94,7 @@ export default function Syllabaire({ navigation, route }) {
       const resp = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${type}`)
       let data = await resp.json()
       data = data.data
-     
+
       // Ordre syllabaire
       const traditionalOrder = [
         'a', 'i', 'u', 'e', 'o',
@@ -73,22 +128,22 @@ export default function Syllabaire({ navigation, route }) {
   };
 
   const borderColor = (priority, isFavorite) => {
-    if (priority > 0.9) {return "#ff0000ff"}
-    else if (priority > 0.8) {return "#ff5500ff"}
-    else if (priority > 0.7) {return "#ff8400ff"}
-    else if (priority > 0.6) {return "#ffb300ff"}
-    else if (priority > 0.5) {return "#5c5e00ff"}
-    else if (priority > 0.4) {return "#006208ff"}
-    else if (priority > 0.3) {return "#059900ff"}
-    else if (priority > 0.2) {return "#00bd03ff"}
-    else if (priority > 0.1) {return "#38e100ff"}
-    else {return "#00bfffff"}
-    }
-  const opacity = ( nbViews ) => {
-    if (nbViews < 1) {return 0.1} 
-    else { return 1}
+    if (priority > 0.9) { return "#ff0000ff" }
+    else if (priority > 0.8) { return "#ff5500ff" }
+    else if (priority > 0.7) { return "#ff8400ff" }
+    else if (priority > 0.6) { return "#ffb300ff" }
+    else if (priority > 0.5) { return "#5c5e00ff" }
+    else if (priority > 0.4) { return "#006208ff" }
+    else if (priority > 0.3) { return "#059900ff" }
+    else if (priority > 0.2) { return "#00bd03ff" }
+    else if (priority > 0.1) { return "#38e100ff" }
+    else { return "#00bfffff" }
   }
-  
+  const opacity = (nbViews) => {
+    if (nbViews < 1) { return 0.1 }
+    else { return 1 }
+  }
+
 
 
 
@@ -111,18 +166,18 @@ export default function Syllabaire({ navigation, route }) {
     const SvgComponent = getSvgRequire(svgKey);
 
     return (
-      <Pressable 
-          style={
-            [styles.kanaCard, 
-              {
-                borderColor: borderColor(priority, isFavorite), 
-                opacity : opacity(nbViews), backgroundColor : isFavorite ? "#ffffbcff" : "#f9f9f9"
-                }]}
-                onPress={() => navigation.navigate("KanaScreen", { type: item.katakanaId ? "katakana" : "hiragana" , kana : item, index : index, getProgress })}
-                
-                >
+      <Pressable
+        style={
+          [styles.kanaCard,
+          {
+            borderColor: borderColor(priority, isFavorite),
+            opacity: opacity(nbViews), backgroundColor: isFavorite ? "#ffea0085" : "#f9f9f95d"
+          }]}
+        onPress={() => navigation.navigate("KanaScreen", { type: item.katakanaId ? "katakana" : "hiragana", kana: item, index: index, getProgress })}
+
+      >
         {SvgComponent ? (
-          <SvgComponent width={20} height={20} />
+          <SvgComponent width={30} height={30} />
         ) : (
           <View style={styles.fallbackContainer}>
             <Text style={styles.kanaText}>{kanaName}</Text>
@@ -135,9 +190,11 @@ export default function Syllabaire({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+      <HeaderSecondary />
       <View style={styles.logo}>
         <LogoIcon width={200} height={200} />
       </View>
+      <Text style={styles.title}>{type}</Text>
       <FlatList
         data={progress}
         renderItem={renderKanaItem}
@@ -151,47 +208,3 @@ export default function Syllabaire({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  logo: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    paddingTop: 20,
-  },
-  gridContainer: {
-    padding: 20,
-  },
-  row: {
-    justifyContent: 'space-around',
-  },
-  kanaCard: {
-    width: '18%',
-    aspectRatio: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-    margin: 1,
-    borderWidth: 1.5,
-    borderRadius: 8,
-
-  },
-  emptyCell: {
-    width: '18%',
-    aspectRatio: 1,
-    margin: 1,
-    backgroundColor: "transparent",
-  },
-  fallbackContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  kanaText: {
-    fontSize: 10,
-    fontFamily: theme.fonts?.outfit || "System",
-    marginTop: 5,
-    textAlign: "center",
-  },
-});
