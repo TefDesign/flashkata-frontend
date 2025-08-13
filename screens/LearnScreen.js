@@ -102,6 +102,7 @@ const LearnScreen = () => {
       .then((resp) => resp.json())
       .then((data) => {
         setCardsDatas(data.data);
+        console.log(data.data);
       });
   }, []);
 
