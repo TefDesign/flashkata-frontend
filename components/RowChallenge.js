@@ -32,7 +32,7 @@ const RowChallenge = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.time}>{time} min</Text>
+      <Text style={styles.time}>{time}</Text>
       <Text style={styles.nbKana}>
         {nbKana} {nbKana > 1 ? "Katas" : "Kata"}
       </Text>
