@@ -16,12 +16,14 @@ import { useDispatch } from "react-redux";
 import { login } from "../reducers/users";
 import { API_URL } from "@env";
 
+
 export default function SignInScreen({ navigation }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignin = () => {
+
     fetch(`${API_URL}/users/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,6 +31,7 @@ export default function SignInScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
+
         if (data.result) {
           dispatch(
             login({ token: data.token, username: data.userName, id: data.id })

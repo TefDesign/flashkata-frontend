@@ -14,9 +14,12 @@ import ReviewAllScreen from "./screens/ReviewAllScreen";
 import ChallengeScreen from "./screens/ChallengeScreen";
 import ProgressionScreen from "./screens/ProgressionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import SyllabaireScreen from "./screens/SyllabaireScreen";
+import KanaScreen from "./screens/KanaScreen";
 import Syllabaire from "./screens/Syllabaire.js";
 import ScoreScreen from "./screens/ScoreScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen.js";
+
 
 
 // Google Font
@@ -90,7 +93,10 @@ export default function App() {
             <Stack.Screen name="Progression" component={ProgressionScreen} />
             <Stack.Screen name="Score" component={ScoreScreen} />
             <Stack.Screen name="Settings" component={SettingsScreen} />
+            <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
+            <Stack.Screen name="KanaScreen" component={KanaScreen} />
             <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
+
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
