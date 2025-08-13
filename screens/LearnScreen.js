@@ -8,6 +8,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useRef, useState } from "react";
 
+import { API_URL } from "@env";
+
 import useThemedStyles from "../hooks/useThemedStyles";
 
 import HeaderSecondary from "../components/HeaderSecondary";
@@ -21,15 +23,27 @@ import soundRed from "../assets/icons/soundRed";
 import { useSharedValue } from "react-native-reanimated";
 import Swiper from "react-native-deck-swiper";
 
-import { cards as cardsDatas } from "../datas/datas.js";
+//import { cards as cardsDatas } from "../datas/datas.js";
 import { useAudioPlayer } from "expo-audio";
 import { getSound } from "../utils/soundsMap.js";
+import { useSelector } from "react-redux";
 
 const LearnScreen = () => {
   // Créer un tableau de SharedValues, une pour chaque carte pour le flip individuel
-  const isFlippedArray = cardsDatas.map(() => useSharedValue(false));
+  const [cardsDatas, setCardsDatas] = useState(null);
+  //const isFlippedArray = cardsDatas.map(() => useSharedValue(false));
+  const [flippedArr, setFlippedArr] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const swiperRef = useRef(null);
+
+  const user = useSelector((state) => state.users);
+
+  // initialisés quand les datas arrivent
+  useEffect(() => {
+    if (cardsDatas && cardsDatas.length) {
+      setFlippedArr(Array(cardsDatas.length).fill(false));
+    }
+  }, [cardsDatas]);
 
   // Import des sons
   const playerShuffleCard = useAudioPlayer(
@@ -47,13 +61,16 @@ const LearnScreen = () => {
   }, []);
 
   // Gestion de la voix pour chaque card
-  const current = cardsDatas[currentCardIndex];
-  const sourceKana = getSound(current.sound);
+  const current = cardsDatas?.[currentCardIndex];
+  const sourceKana = cardsDatas ? getSound(current.sound) : null;
   const playerKana = useAudioPlayer(sourceKana);
 
   const handlePress = () => {
-    isFlippedArray[currentCardIndex].value =
-      !isFlippedArray[currentCardIndex].value;
+    setFlippedArr((arr) => {
+      const copy = [...arr];
+      copy[currentCardIndex] = !copy[currentCardIndex];
+      return copy;
+    });
     playerFlipCard.seekTo(0);
     playerFlipCard.play();
   };
@@ -63,17 +80,50 @@ const LearnScreen = () => {
     await playerKana.play();
   };
 
+  useEffect(() => {
+    // const fetchData = async () => {
+    //   const data = await fetch(`${API_URL}/getCards`);
+    //   const response = data.json();
+    //   return response;
+    // };
+    // const result = fetchData().catch(console.error);
+    // console.log(result);
+    fetch(`${API_URL}/cards/getCards`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: user.id,
+        token: user.token,
+        kataType: "hiragana",
+        filterType: "all",
+        nbSlider: 10,
+      }),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        setCardsDatas(data.data);
+      });
+  }, []);
+
   const doneCard = (cardIndex) => {
     console.log("Done", cardIndex);
     playerSwipeCard.seekTo(0);
     playerSwipeCard.play();
-    isFlippedArray[cardIndex].value = false;
+    setFlippedArr((arr) => {
+      const copy = [...arr];
+      copy[cardIndex] = false;
+      return copy;
+    });
   };
   const keepCard = (cardIndex) => {
     console.log("Keep card", cardIndex);
     playerSwipeCard.seekTo(0);
     playerSwipeCard.play();
-    isFlippedArray[cardIndex].value = false;
+    setFlippedArr((arr) => {
+      const copy = [...arr];
+      copy[cardIndex] = false;
+      return copy;
+    });
   };
 
   const [theme, styles] = useThemedStyles((theme) =>
@@ -123,45 +173,64 @@ const LearnScreen = () => {
       },
     })
   );
+  //console.log("flippedArr[currentCardIndex] =>", flippedArr[currentCardIndex]);
+
+  // Ne pas rendre le composant si les données ne sont pas encore chargées
+  if (!cardsDatas || flippedArr.length === 0) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <HeaderSecondary />
+        <Text style={styles.textLarge}>Chargement...</Text>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderSecondary />
-      <Swiper
-        ref={swiperRef}
-        cards={cardsDatas}
-        renderCard={(card, cardIndex) => {
-          return (
-            <Card
-              key={cardIndex}
-              kata={<KataRead {...card} />}
-              isFlipped={isFlippedArray[cardIndex]}
-              {...card}
-            />
-          );
-        }}
-        onSwiped={(cardIndex) => {
-          console.log("cardIndex : ", cardIndex);
-          /* 
+      {flippedArr && (
+        <Swiper
+          ref={swiperRef}
+          cards={cardsDatas}
+          renderCard={(card, cardIndex) => {
+            //console.log("renderCard => ", card);
+            // console.log(
+            //   `Card ${cardIndex} flipped state:`,
+            //   flippedArr[cardIndex]
+            // );
+            return (
+              <Card
+                key={`${cardIndex}-${flippedArr[cardIndex]}`}
+                kata={<KataRead {...card} />}
+                flipped={flippedArr[cardIndex]}
+                {...card}
+              />
+            );
+          }}
+          onSwiped={(cardIndex) => {
+            console.log("onSwiped : ", cardIndex);
+            /* 
             On réinit l'index quand on arrive à la fin de la pile.
             Exemple si 5 cartes, on arrive au 4ème index :
             C'est égale à (4+1) % 5 = 5 % 5 = 0 
              */
-          setCurrentCardIndex((currentCardIndex + 1) % cardsDatas.length);
-        }}
-        disableLeftSwipe={true}
-        disableRightSwipe={true}
-        onSwipedTop={(cardIndex) => doneCard(cardIndex)}
-        onSwipedBottom={(cardIndex) => keepCard(cardIndex)}
-        stackSize={5}
-        infinite={true}
-        backgroundColor="transparent"
-        cardVerticalMargin={170}
-        cardHorizontalMargin={
-          Dimensions.get("window").width / 2 -
-          Dimensions.get("window").width / 1.2 / 2
-        }
-        stackSeparation={25}
-      />
+            setCurrentCardIndex((prev) => (prev + 1) % cardsDatas.length);
+          }}
+          disableLeftSwipe={true}
+          disableRightSwipe={true}
+          onSwipedTop={(cardIndex) => doneCard(cardIndex)}
+          onSwipedBottom={(cardIndex) => keepCard(cardIndex)}
+          stackSize={5}
+          infinite={true}
+          backgroundColor="transparent"
+          cardVerticalMargin={170}
+          cardHorizontalMargin={
+            Dimensions.get("window").width / 2 -
+            Dimensions.get("window").width / 1.2 / 2
+          }
+          stackSeparation={25}
+        />
+      )}
       <View style={styles.buttonBottomContainer}>
         <ButtonIcon icon={flip} onPress={handlePress} />
         <ButtonIcon icon={soundRed} onPress={handleSound} />

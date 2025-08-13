@@ -9,7 +9,7 @@ import useThemedStyles from "../hooks/useThemedStyles";
 const KataRead = (props) => {
   const { image, name, word = null } = props;
 
-  const SvgComponent = getSvgRequire(image);
+  const SvgComponent = getSvgRequire(name);
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -36,9 +36,9 @@ const KataRead = (props) => {
           style={{ color: theme.colors.text }}
         />
       )}
-      {/* 
+
       {name && <Text style={styles.name}>{name}sss</Text>}
-      {word && <Text style={styles.word}>{word}aaa</Text>} */}
+      {word && <Text style={styles.word}>{word}aaa</Text>}
     </View>
   );
 };
