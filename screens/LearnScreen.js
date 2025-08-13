@@ -31,6 +31,7 @@ const LearnScreen = () => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const swiperRef = useRef(null);
 
+  // Import des sons
   const playerShuffleCard = useAudioPlayer(
     require("../assets/effects/shuffle.wav")
   );
@@ -39,15 +40,15 @@ const LearnScreen = () => {
     require("../assets/effects/swipe.mp3")
   );
 
+  // On initialise le premier son d'apparition du deck
   useEffect(() => {
     playerShuffleCard.seekTo(0);
     playerShuffleCard.play();
   }, []);
 
-  // Source = mp3 de la carte courante (pas de hook ici)
+  // Gestion de la voix pour chaque card
   const current = cardsDatas[currentCardIndex];
-  const sourceKana = getSound(current.sound); // require("../assets/sounds/xxx.mp3")
-
+  const sourceKana = getSound(current.sound);
   const playerKana = useAudioPlayer(sourceKana);
 
   const handlePress = () => {
@@ -58,8 +59,6 @@ const LearnScreen = () => {
   };
 
   const handleSound = async () => {
-    // Avec expo-audio, la position ne se réinitialise pas toute seule :
-    // on remet au début puis on joue (cf. note de la doc).
     await playerKana.seekTo(0);
     await playerKana.play();
   };
