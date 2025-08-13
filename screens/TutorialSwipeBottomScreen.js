@@ -7,9 +7,9 @@ import HeaderSecondary from "../components/HeaderSecondary";
 import CardSimple from "../components/CardSimple";
 import Button from "../components/Button";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
-const TutorialScreen = ({ navigation }) => {
+const TutorialSwipeBottomScreen = ({ navigation }) => {
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
       container: {
@@ -62,32 +62,26 @@ const TutorialScreen = ({ navigation }) => {
       <View style={styles.card}>
         <CardSimple image="01-hiragana-a"/>
       </View>
-        <Text style={styles.text}>Swiper à gauche ou à droite pour retourner la carte et voir la réponse.</Text>
+        <Text style={styles.text}>Swiper la  carte vers le bas pour continuer à l'apprendre.</Text>
       </View>
       <FontAwesomeIcon
-        icon={faArrowLeft}
+        icon={faArrowDown}
         size={80}
         color={theme.colors.text}
-        style={{ position: "absolute", left: theme.spacing.large, top: "56%" }}
-      />
-      <FontAwesomeIcon
-        icon={faArrowRight}
-        size={80}
-        color={theme.colors.text}
-        style={{ position: "absolute", right: theme.spacing.large, top: "56%" }}
+        style={{ position: "absolute", top: "56%" }}
       />
 
       <Settings />
       <View style={styles.button}>
         <Button
           title="Suite du tutoriel"
-          onPress={() => navigation.navigate("TutorialSwipeBottom")}
+          onPress={() => navigation.navigate("TutorialSwipeUp")}
         />
       </View>
     </SafeAreaView>
   );
 };
 
-export default TutorialScreen;
+export default TutorialSwipeBottomScreen;
 
 const styles = StyleSheet.create({});

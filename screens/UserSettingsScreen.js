@@ -1,10 +1,7 @@
 import {
   StyleSheet, 
   Text, 
-  View, 
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
+  View,
 } from "react-native";
 import LogoIcon from "../assets/icons/logo.svg";
 import HeaderSecondary from "../components/HeaderSecondary";
@@ -64,9 +61,10 @@ const UserSettingsScreen = () => {
           flex: 1,
           backgroundColor: theme.colors.background,
           alignItems: "center",
+          paddingHorizontal: theme.spacing.large,
         },
         logo: {
-          marginBottom: 78,
+          marginBottom: 40,
         },
         setting: {
           position: "absolute",
@@ -74,61 +72,66 @@ const UserSettingsScreen = () => {
           right: 30,
         },
         button: {
-          width: "85%",
+          width: "100%",
+          margin: theme.spacing.medium,
         },
         text: {
           fontFamily: theme.fonts.staatliches,
           fontSize: theme.fontSize.menu,
+          color: theme.colors.text,
         }
       })
     );
 
   return (
-      <SafeAreaView style={styles.container}>
-        <HeaderSecondary isAvatar={false} />
+    <SafeAreaView style={styles.container}>
+      <HeaderSecondary isAvatar={false} />
+      <View style={styles.logo}>
         <LogoIcon
           width={256}
           height={136}
           style={{ color: theme.colors.text }}
         />
-        <Avatar />
-        <Text style={styles.text}>{user.username}</Text>
-        <Settings />
+      </View>
+      <Avatar size="160" />
+      <Text style={styles.text}>{user.username}</Text>
+      <Settings />
 
-        {!showModificationPassword && (
-          <Button
-            variant = "outline"
-            style={styles.button}
-            title="Changer de mot de passe"
-            onPress={() => setShowModificationPassword(!showModificationPassword)}
-          />
-        )}
-
-        {showModificationPassword && (
-          <View>
-            <Input
-              placeholder="Nouveau mot de passe"
-              autoCapitalize="none"
-              secureTextEntry
-              onChangeText={(value) => setNewPassword(value)}
-              value={newPassword}
-            />
-            <Input
-              placeholder="Confirmer mot de passe"
-              autoCapitalize="none"
-              secureTextEntry
-              onChangeText={(value) => setConfirmNewPassword(value)}
-              value={confirmNewPassword}
-            />
-          </View>
-        )}
-
+      {!showModificationPassword && (
+      <View style={styles.button}>
         <Button
-          style={styles.button}
+          variant = "outline"
+          title="Changer de mot de passe"
+          onPress={() => setShowModificationPassword(!showModificationPassword)}
+        />
+      </View>
+      )}
+
+      {showModificationPassword && (
+        <View>
+          <Input
+            placeholder="Nouveau mot de passe"
+            autoCapitalize="none"
+            secureTextEntry
+            onChangeText={(value) => setNewPassword(value)}
+            value={newPassword}
+          />
+          <Input
+            placeholder="Confirmer mot de passe"
+            autoCapitalize="none"
+            secureTextEntry
+            onChangeText={(value) => setConfirmNewPassword(value)}
+            value={confirmNewPassword}
+          />
+        </View>
+      )}
+      <View style={styles.button}>
+        <Button
           title="Valider"
           onPress={() => handleModifyPassword()}
         />
-      </SafeAreaView>
+      </View>
+    </SafeAreaView>
   );
 };
 
