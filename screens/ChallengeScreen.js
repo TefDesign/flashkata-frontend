@@ -13,6 +13,7 @@ import useThemedStyles from "../hooks/useThemedStyles";
 
 const ChallengeScreen = ({ navigation }) => {
   const [activeLimit, setActiveLimit] = useState(false);
+  const [timeoutMinutes, setTimeoutMinutes] = useState(1);
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -70,7 +71,7 @@ const ChallengeScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("")}>
         <Text style={styles.subMenu}>Katakana</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Quizz")}>
+      <TouchableOpacity onPress={() => navigation.navigate("")}>
         <Text style={styles.subMenu}>Tout</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Score")}>
@@ -80,9 +81,22 @@ const ChallengeScreen = ({ navigation }) => {
       <View style={styles.sliderContainer}>
         <Text style={styles.text}>Activer le chrono</Text>
         <SwitchOption value={activeLimit} onChange={setActiveLimit} />
-        {activeLimit && <SliderRange mode="time" />}
+        {activeLimit &&
+          <SliderRange 
+            mode="time" 
+            value={timeoutMinutes} 
+            onChange={setTimeoutMinutes} 
+            />}
       </View>
-      <Button title="Lancer le challenge" />
+      <Button
+          title="Lancer le challenge"
+          onPress={() =>
+            navigation.navigate("Quizz", {
+              timeoutMinutes,            // valeur du slider
+              limitEnabled: activeLimit, // ON/OFF chrono
+            })
+          }
+        />
       <Settings />
     </SafeAreaView>
   );

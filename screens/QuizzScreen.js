@@ -1,11 +1,13 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Animated, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
 import Button from "../components/Button";
 import theme from "../styles/themeLight";
+import useThemedStyles from "../hooks/useThemedStyles";
 import LogoIcon from "../assets/icons/logo.svg";
 import ArrowBackIcon from "../assets/icons/arrowback.svg";
 
@@ -22,23 +24,63 @@ import { cards } from "../datas/datas";
 const QuizzScreen = () => {
 
   const navigation = useNavigation();
-  
 
+  // On recupère la valeur et si activé de Challenge screen
+  const { params } = useRoute();
+  const timeoutMinutes = params?.timeoutMinutes ?? 1;
+  const limitEnabled = params?.limitEnabled ?? false;
+  const TOTAL_MS = timeoutMinutes * 60_000;
 
+// On définit la base des options à faire apparaitre
   const baseOptions = cards.map(item => item.name);
 
-  
-
-
-  const [options, setOptions] = useState(baseOptions); 
-  const [picked, setPicked] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(1);
   const [correctAnswer, setCorrectAnswer] = useState(null);
-  const [nbQuestionPerQuizz, setNbQuestionPerQuizz] = useState(10)
+  const [options, setOptions] = useState(baseOptions); 
+  const [picked, setPicked] = useState(null);
+  const isLocked = picked !== null;
+
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
 
-  const isLocked = picked !== null;
+  const totalTimerRef = useRef(null);
+  const tickRef = useRef(null);
+  const [nbQuestionPerQuizz, setNbQuestionPerQuizz] = useState(10); // a chercher dans le fetch
+  const [remainingMs, setRemainingMs] = useState(TOTAL_MS);
+
+  const nextQuizzAuto = limitEnabled ? 300 : 500;
+
+  const scale = useRef(new Animated.Value(1)).current;
+  const shake = useRef(new Animated.Value(0)).current;
+  const flash = useRef(new Animated.Value(0)).current;
+
+  const startTotalTimer = () => {
+    if (totalTimerRef.current) clearTimeout(totalTimerRef.current);
+    if (tickRef.current) clearInterval(tickRef.current);
+
+    setRemainingMs(TOTAL_MS);
+    if (!limitEnabled) return;
+
+    const start = Date.now();
+    // deadline
+    totalTimerRef.current = setTimeout(() => {
+      setFinished(true);
+    }, TOTAL_MS);
+    // affichage du countdown
+    tickRef.current = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const left = Math.max(TOTAL_MS - elapsed, 0);
+      setRemainingMs(left);
+      if (left <= 0) {
+        clearInterval(tickRef.current);
+      }
+    }, 200);
+  };
+
+  const shakeX = shake.interpolate({
+    inputRange: [0, 1, 2, 3, 4],
+    outputRange: [0, -8, 8, -8, 0],
+  });
 
   function newQuestion(resetNumber = false) {
     const opts = getRandomOptions();
@@ -48,11 +90,18 @@ const QuizzScreen = () => {
     setQuestionNumber(n => resetNumber ? 1 : n); // restart
   }
 
-
   function getRandomOptions() {
     const shuffled = [...baseOptions].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 4);
   }
+
+  useEffect(() => {
+    startTotalTimer();
+    return () => {
+      if (totalTimerRef.current) clearTimeout(totalTimerRef.current);
+      if (tickRef.current) clearInterval(tickRef.current);
+    };
+  }, [timeoutMinutes, limitEnabled]);
 
   useEffect(() => {
     setOptions(getRandomOptions());
@@ -64,22 +113,39 @@ const QuizzScreen = () => {
     function getRandomOptions(correct) {
       const otherLetters = baseOptions.filter(l => l !== correct);
       const shuffledOthers = [...otherLetters].sort(() => Math.random() - 0.5);
-      const randomOthers = shuffledOthers.slice(0, 3); // 3 autres lettres
+      const randomOthers = shuffledOthers.slice(0, 3); // 3 autres lettres en plus de la bonne réponse
       const finalOptions = [correct, ...randomOthers].sort(() => Math.random() - 0.5);
       return finalOptions;
     }
   }, []);
 
-  const nextQuizzAuto = 600;
-
   const handlePick = (opt) => {
     if (isLocked) return;
     setPicked(opt);
 
-    console.log("Choix:", opt, " -> ", opt === correctAnswer ? "Good" : "Nop");
+// console.log("Choix:", opt, " -> ", opt === correctAnswer ? "Good" : "Nop");
 
     if (opt === correctAnswer){
       setScore((s) => s + 1)
+      Animated.parallel([
+        Animated.sequence([
+          Animated.spring(scale, { toValue: 1.08, friction: 3, tension: 120, useNativeDriver: true }),
+          Animated.spring(scale, { toValue: 1, friction: 3, tension: 120, useNativeDriver: true }),
+        ]),
+        Animated.sequence([
+          Animated.timing(flash, { toValue: 1, duration: 120, useNativeDriver: true }),
+          Animated.timing(flash, { toValue: 0, duration: 180, useNativeDriver: true }),
+        ]),
+      ]).start();
+    } else {
+      shake.setValue(0);
+        Animated.parallel([
+        Animated.timing(shake, { toValue: 4, duration: 240, useNativeDriver: true }),
+        Animated.sequence([
+        Animated.timing(flash, { toValue: 1, duration: 120, useNativeDriver: true }),
+        Animated.timing(flash, { toValue: 0, duration: 180, useNativeDriver: true }),
+    ]),
+  ]).start();
     }
 
     setTimeout(() => {
@@ -93,6 +159,11 @@ const QuizzScreen = () => {
     }, nextQuizzAuto);
     };
 
+
+  // utilitaires d'affichage
+  const mm = Math.floor(remainingMs / 60000);
+  const ss = Math.floor((remainingMs % 60000) / 1000);
+  const mmss = `${String(mm).padStart(2, "0")}:${String(ss).padStart(2, "0")}`;
 
     if (finished) {
       return (
@@ -114,7 +185,9 @@ const QuizzScreen = () => {
                 setFinished(false);
                 setScore(0);
                 setQuestionNumber(1);
-                setPicked(null); }}>
+                setPicked(null);
+                startTotalTimer(); 
+                }}>
               <Text style={styles.txtFin1}>Même série</Text>
           </TouchableOpacity>
 
@@ -126,6 +199,7 @@ const QuizzScreen = () => {
                 setQuestionNumber(1);
                 setPicked(null);
                 newQuestion(true);
+                startTotalTimer();
                 }}>
               <Text style={styles.txtFin2}>Nouvelle série</Text>
           </TouchableOpacity>
@@ -147,11 +221,16 @@ const QuizzScreen = () => {
       <Text style={styles.instructionsText}> Ecoute et trouve le bon kata </Text>
       <Text style={styles.correctAnserText}>"{correctAnswer}" </Text>
       
+      
       <View style={styles.questionNumberView}>
         <Text style={styles.questionNumberText}>
           {questionNumber} / {nbQuestionPerQuizz}
         </Text>
+        {limitEnabled && (
+                <Text style={styles.timerTxt}>{mmss}</Text>
+            )}
         <Text style={styles.scoreText}>Score : {score}</Text>
+        
       </View>
 
       <View style={styles.AnswerContainer}>
@@ -169,18 +248,28 @@ const QuizzScreen = () => {
 
           return (
             <TouchableOpacity
-              key={opt  + "-" + idx}
+              key={opt  + "-" + idx} 
+  // 	opt → le contenu de l’option (ex : "KE" / .name de datas.js)
+	//	opt + "-" + idx → crée une nouvelle clef concaténé : opt = "あ", idx = 2, clé => "あ-2"
               style={[styles.options, { backgroundColor: bg, marginTop: 10 }]}
               activeOpacity={0.9}
               onPress={() => handlePick(opt)}
             >
+            <Animated.View
+                style={{
+                  flex: 1,
+                  alignSelf: isPicked ? "stretch" : "stretch",
+                  transform: isPicked
+                    ? [{ scale }, { translateX: shakeX }]
+                    : [{ scale: 1 }, { translateX: 0 }],
+                }}>
               <CardSimple 
               {...card} 
               bgColor={bg}
               isPicked={isPicked}
               isCorrect={isCorrect}
               />
-
+              </Animated.View>
             </TouchableOpacity>
           );
         })}
@@ -206,13 +295,19 @@ export default QuizzScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: theme.colors.background,
     alignItems: "center",
     paddingHorizontal: theme.spacing.large,
   },
   logo: {
     top: -20,
     marginBottom: 0,
+  },
+  timerTxt:{
+    position: "relative",
+    left: 10,
+    top: -7,
+    fontSize: 20,
   },
   ScoreContainer:{
     top: -50,
@@ -262,7 +357,7 @@ const styles = StyleSheet.create({
     height: "50%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#f0f0f0",   
+    backgroundColor: "#f0f0f0", 
   },
   optionsText:{
     color: "#000000",
