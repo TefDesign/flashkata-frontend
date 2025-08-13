@@ -23,7 +23,7 @@ export default function SignInScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleSignin = () => {
-    console.log("aaa")
+
     fetch(`${API_URL}/users/signin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -31,7 +31,7 @@ export default function SignInScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('data : ', data)
+
         if (data.result) {
           dispatch(login({ token: data.token, username: data.userName, id: data.id }));
           navigation.navigate("MainMenu");

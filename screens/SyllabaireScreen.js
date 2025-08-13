@@ -39,8 +39,6 @@ export default function Syllabaire({ navigation, route }) {
       const resp = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${type}`)
       let data = await resp.json()
       data = data.data
-      console.log('resp : ', data)
-      
      
       // Ordre syllabaire
       const traditionalOrder = [
