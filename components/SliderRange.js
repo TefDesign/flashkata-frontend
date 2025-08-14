@@ -17,7 +17,7 @@ const SliderRange = (props) => {
 
   // const [sliderValue, setSliderValue] = useState(mode === "cards" ? 5 : 1);
 
-  const getMode = () => {
+  const getMode = () => { 
     if (mode === "time") {
       return {
         display: `${sliderValue} min`,

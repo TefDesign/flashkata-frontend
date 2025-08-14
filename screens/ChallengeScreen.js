@@ -14,15 +14,21 @@ import Button from "../components/Button";
 import LogoIcon from "../assets/icons/logo.svg";
 
 import useThemedStyles from "../hooks/useThemedStyles";
-import { cards } from "../datas/datas";
-
+// import { cards } from "../datas/datas";
 
 
 const ChallengeScreen = ({ navigation }) => {
+
+
   const [activeLimit, setActiveLimit] = useState(false);
   const [timeoutMinutes, setTimeoutMinutes] = useState(1);
 
   const [challengeType, setChallengeType] = useState(null); // Stocker si hira | kata / hira / tout selected
+  const [isClickedHira, setIsClickedHira] = useState(false); 
+  const [isClickedKata, setIsClickedKata] = useState(false);
+  const [isClickedAll, setIsClickedAll] = useState(false);  
+
+
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
 
@@ -46,11 +52,27 @@ const ChallengeScreen = ({ navigation }) => {
         marginBottom: theme.spacing.large,
         color: theme.colors.text,
       },
-      subMenu: {
+      subMenuHira: {
         fontFamily: theme.fonts.outfitRegular,
         fontSize: theme.fontSize.subMenu,
         margin: theme.spacing.small,
-        color: theme.colors.text,
+        color: challengeType && isClickedHira ? "#DD3B3B" : "#000000",
+        marginBottom: 5,
+        textAlign: "center",
+      },
+      subMenuKata: {
+        fontFamily: theme.fonts.outfitRegular,
+        fontSize: theme.fontSize.subMenu,
+        margin: theme.spacing.small,
+        color: challengeType && isClickedKata ? "#DD3B3B" : "#000000",
+        marginBottom: 5,
+        textAlign: "center",
+      },
+      subMenuAll: {
+        fontFamily: theme.fonts.outfitRegular,
+        fontSize: theme.fontSize.subMenu,
+        margin: theme.spacing.small,
+        color: challengeType && isClickedAll ? "#DD3B3B" : "#000000",
         marginBottom: 5,
         textAlign: "center",
       },
@@ -76,13 +98,14 @@ console.log("Leeeeeeeet's euh go")
     setLoading(true);
     try {
 
-      const nbSlider = 1;
-      const filterType = "all";
-
+      const nbSlider = 10;
+      const filterType = "onlyViewed";
+      const kataType = challengeType;
       const id = user.id
       const token = user.token
+      const isDevMode = false
 
-console.log("Ca c'est toi:", id, token)
+// console.log("Ca c'est toi:", id, token)
 
       if (!id || !token) {
         setErrMsg("Utilisateur non connecté (id/token manquants).");
@@ -90,18 +113,19 @@ console.log("Ca c'est toi:", id, token)
         return;
       }
 
-console.log("You shaaaall not pass")
+// console.log("You shaaaall not pass")
 
       const body = {
         nbSlider: nbSlider,
-        kataType: "hiragana",
+        kataType,
         filterType: filterType,
         id: id,
         token: token,
+        isDevMode: isDevMode,
       };
 
-
-console.log("beau dix", )
+console.log("kataType", kataType)
+console.log("beau dix", body)
 
 
       const res = await fetch(`${API_URL}/cards/getCards`, {
@@ -110,37 +134,36 @@ console.log("beau dix", )
         body: JSON.stringify(body),
       });
 
-console.log("raie the", res)
+// console.log("raie the", res)
 
       const json = await res.json();
 
-      // if (!json?.result) {
-      //   setErrMsg(json?.message || "Erreur inconnue sur /getCards");
-      //   setLoading(false);
-      //   return;
-      // }
-
-console.log("json", json)
+// console.log("json", json.data)
 
       if (json) {
         navigation.navigate("Quizz", {
           timeoutMinutes,
           limitEnabled: activeLimit,
-          challengeType,
           cards: json.data,
         });
 
       }
-console.log("Ji Zone", cards.length)
+
+// console.log( "cardsFetched" , json )
+
+      const cardsWithImageKey = json.data.map(card => ({
+        ...card,
+        imageKey: `${card.number}-${card.type}-${card.name}`
+      }));
 
       const cardsFromApi = Array.isArray(cards) ? cards : [];
-      // (Optionnel) normalisation: s'assurer d'avoir .name
+      // normalisation: s'assurer d'avoir .name
       const normalized = cardsFromApi.map(k => ({
         ...k,
         name: k.name ?? k.romanji ?? k.label ?? k._id,   
       }));
 
-      console.log( "normalized" , normalized.length )
+console.log( "normalized" , normalized[0] )
 
 
 
@@ -148,11 +171,9 @@ console.log("Ji Zone", cards.length)
       navigation.navigate("Quizz", {
         timeoutMinutes,
         limitEnabled: activeLimit,
-        challengeType,
         cards: normalized,
+        cards: cardsWithImageKey
       });
-
-      console.log("Pk un nom quand on a Panzani?")
 
     } catch (e) {
       setErrMsg("Impossible de récupérer les cartes.");
@@ -160,6 +181,10 @@ console.log("Ji Zone", cards.length)
       console.warn(e);
     }
   };
+
+  const hiraActive = challengeType === 'hiragana';
+  const kataActive = challengeType === 'katakana';
+  const allActive  = challengeType === 'all';
 
   return (
     <SafeAreaView style={styles.container}>
@@ -172,15 +197,57 @@ console.log("Ji Zone", cards.length)
         />
       </View>
       <Text style={styles.title}>Challenge</Text>
-      <TouchableOpacity onPress={() => setChallengeType("hiragana")}>
-        <Text style={styles.subMenu}>Hiragana</Text>
+      <TouchableOpacity 
+        disabled={challengeType !== null && !hiraActive}
+        onPress={() => {
+          setChallengeType(hiraActive ? null : 'hiragana')
+          setIsClickedHira(hiraActive ? false : true)
+      }}
+      style={[styles.subMenuHira, 
+      hiraActive && { color: "#DD3B3B" },
+      (kataActive || allActive) && { 
+        color: theme.colors.text,
+        opacity: 0.17
+      }
+      ]}>
+
+        <Text style={styles.subMenuHira}>Hiragana</Text>
+
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setChallengeType("katakana")}>
-        <Text style={styles.subMenu}>Katakana</Text>
+
+      <TouchableOpacity 
+          disabled={challengeType !== null && !kataActive}
+          onPress={() => {
+          setChallengeType(kataActive ? null : 'katakana')
+          setIsClickedKata(kataActive ? false : true)
+          }}
+          style={[styles.subMenuKata, 
+            kataActive && { color: "#DD3B3B" },
+            (hiraActive || allActive) && { 
+              color: theme.colors.text,
+              opacity: 0.17
+            }
+            ]}>
+        <Text  style={[styles.subMenuKata]}>Katakana</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setChallengeType("all")}>
-        <Text style={styles.subMenu}>Tout</Text>
+      
+      <TouchableOpacity
+          disabled={challengeType !== null && !allActive}
+          onPress={() => {
+            setChallengeType(allActive ? null : 'all')
+            setIsClickedAll(allActive ? false : true)
+          }}
+          style={[styles.subMenuKata, 
+            allActive && { color: "#DD3B3B" },
+            (kataActive || hiraActive) && { 
+              color: theme.colors.text,
+              opacity: 0.17
+            }
+            ]}
+        >
+        <Text style={[styles.subMenuAll]}>Tout</Text>
       </TouchableOpacity>
+
       <TouchableOpacity onPress={() => navigation.navigate("Score")}>
         <Text style={styles.subMenu}>Score</Text>
       </TouchableOpacity>
@@ -198,8 +265,7 @@ console.log("Ji Zone", cards.length)
       <Button
           title="Lancer le challenge"
           onPress={() => 
-            {startChallenge(),
-            console.log("meeeeeeeeep")}
+            {startChallenge()}
           }
         />
       <Settings />

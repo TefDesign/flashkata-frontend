@@ -10,13 +10,16 @@ import { useEffect, useState } from "react";
 const CardSimple = (props) => {
 
   const { 
-    image, 
-    name, 
+    number, 
+    name,
+    type, 
     word, 
     bgColor = "#f0f0f0", 
     isCorrect, 
     isPicked } = props;
-  const SvgComponent = getSvgRequire(image);
+
+  const imageKey = `${number}-${type}-${name}`;
+  const SvgComponent = getSvgRequire(imageKey);
   
   const [hasValidated, setHasValidated] = useState(false);
 

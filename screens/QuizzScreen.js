@@ -28,9 +28,10 @@ const QuizzScreen = () => {
   const navigation = useNavigation();
   const { params } = useRoute();
 
-  console.log("params")
+  const cards = params.cards
 
-  
+
+  console.log("cardsQuizz:", cards[0])
 
   // On recupère la valeur du slider/timer et si activé de Challenge screen
   const timeoutMinutes = params?.timeoutMinutes ?? 1;
@@ -100,70 +101,11 @@ const QuizzScreen = () => {
 
   function getRandomOptions() {
     const shuffled = [...baseOptions].sort(() => Math.random() - 0.5);
+// console.log("shuffle", shuffled)
     return shuffled.slice(0, 4);
   }
 
-  // useEffect(() => {
-  //   let abort = false;
 
-  //   async function fetchCards() {
-  //     try {
-  //       const [id, token] = await Promise.all([
-  //         AsyncStorage.getItem("userId"),
-  //         AsyncStorage.getItem("token"),
-  //       ]);
-
-  //       if (!id || !token) {
-  //         console.warn("Identifiants manquants pour /getCards");
-  //         return;
-  //       }
-
-  //       const body = {
-  //         nbSlider: nbSlider,
-  //         kataType: challengeType,
-  //         filterType: filterType,
-  //         id,
-  //         token,
-  //         isDevMode: isDevMode,
-  //       };
-
-  //       const res = await fetch(`${API_URL}/getCards`, {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify(body),
-  //       });
-
-  //       const json = await res.json();
-
-  //       if (!json?.result) {
-  //         console.warn("getCards KO:", json?.message || json?.error);
-  //         return; // fallback local
-  //       }
-
-  //       // ✅ json.data = [kataDoc, ...] si isDevMode=false (cf. route) 
-  //       const apiCards = json.data;
-
-  //       // ✅ normalise si besoin pour correspondre à CardSimple / logique existante
-  //       // suppose que chaque doc kata possède au moins: { name, ... }
-  //       if (!abort && Array.isArray(apiCards) && apiCards.length > 0) {
-  //         setAvailableCards(apiCards);
-  //         // relance une question propre sur le nouveau pool
-  //         setScore(0);
-  //         setPicked(null);
-  //         setFinished(false);
-  //         setQuestionNumber(1);
-  //         setOptions([]); // reset visuel rapide
-  //         // mini délai pour laisser React recalculer baseOptions
-  //         setTimeout(() => newQuestion(true), 0);
-  //       }
-  //     } catch (e) {
-  //       console.warn("Erreur fetch /getCards:", e);
-  //     }
-  //   }
-
-  //   fetchCards();
-  //   return () => { abort = true; };
-  // }, [challengeType]);
 
   useEffect(() => {
     startTotalTimer();
@@ -179,14 +121,18 @@ const QuizzScreen = () => {
     const newCorrect = baseOptions[Math.floor(Math.random() * baseOptions.length)];
     setCorrectAnswer(newCorrect);
     setOptions(getRandomOptions(newCorrect));
+    
+// console.log("newCorrect", newCorrect)
 
     function getRandomOptions(correct) {
       const otherLetters = baseOptions.filter(l => l !== correct);
       const shuffledOthers = [...otherLetters].sort(() => Math.random() - 0.5);
       const randomOthers = shuffledOthers.slice(0, 3); // 3 autres lettres en plus de la bonne réponse
       const finalOptions = [correct, ...randomOthers].sort(() => Math.random() - 0.5);
+// console.log("finalOptions", finalOptions)
       return finalOptions;
     }
+
   }, []);
 
   const handlePick = (opt) => {
@@ -233,10 +179,12 @@ const QuizzScreen = () => {
     };
 
 
-  // utilitaires d'affichage
+  // utilitaires d'affichage timer + type card affichée
   const mm = Math.floor(remainingMs / 60000);
   const ss = Math.floor((remainingMs % 60000) / 1000);
   const mmss = `${String(mm).padStart(2, "0")}:${String(ss).padStart(2, "0")}`;
+
+  const currentCard = cards.find(c => c.name === correctAnswer);
 
     if (finished) {
       return (
@@ -291,7 +239,7 @@ const QuizzScreen = () => {
         <LogoIcon width={100} height={50} />
       </View>
 
-      <Text style={styles.instructionsText}> Ecoute et trouve le bon kata </Text>
+      <Text style={styles.instructionsText}> Ecoute et trouve le bon {currentCard?.type} </Text>
       <Text style={styles.correctAnserText}>"{correctAnswer}" </Text>
       
       

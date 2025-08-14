@@ -7,6 +7,8 @@ import SignInScreen from "./screens/SignInScreen";
 import DiscoverAppScreen from "./screens/DiscoverAppScreen";
 import MainMenuScreen from "./screens/MainMenuScreen";
 import TutorialScreen from "./screens/TutorialScreen";
+import TutorialSwipeBottomScreen from "./screens/TutorialSwipeBottomScreen.js";
+import TutorialSwipeUpScreen from "./screens/TutorialSwipeUpScreen.js";
 import IntroJapaneseScreen from "./screens/IntroJapaneseScreen";
 import HiraganaScreen from "./screens/HiraganaScreen";
 import KatakanaScreen from "./screens/KatakanaScreen";
@@ -16,9 +18,9 @@ import ProgressionScreen from "./screens/ProgressionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import SyllabaireScreen from "./screens/SyllabaireScreen";
 import KanaScreen from "./screens/KanaScreen";
-import Syllabaire from "./screens/SyllabaireScreen.js";
 import ScoreScreen from "./screens/ScoreScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen.js";
+import LearnScreen from "./screens/LearnScreen.js";
 import QuizzScreen from "./screens/QuizzScreen.js";
 
 // Google Font
@@ -81,6 +83,8 @@ export default function App() {
             <Stack.Screen name="DiscoverApp" component={DiscoverAppScreen} />
             <Stack.Screen name="MainMenu" component={MainMenuScreen} />
             <Stack.Screen name="Tutorial" component={TutorialScreen} />
+            <Stack.Screen name="TutorialSwipeBottom" component={TutorialSwipeBottomScreen} />
+            <Stack.Screen name="TutorialSwipeUp" component={TutorialSwipeUpScreen} />
             <Stack.Screen
               name="IntroJapanese"
               component={IntroJapaneseScreen}
@@ -95,6 +99,7 @@ export default function App() {
             <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
             <Stack.Screen name="KanaScreen" component={KanaScreen} />
             <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
+            <Stack.Screen name="Learn" component={LearnScreen} />
             <Stack.Screen name="Quizz" component={QuizzScreen} />
           </Stack.Navigator>
         </NavigationContainer>
