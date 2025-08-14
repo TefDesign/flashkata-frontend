@@ -91,14 +91,12 @@ const ChallengeScreen = ({ navigation }) => {
 
   const startChallenge = async () => {
 
-
-
 console.log("Leeeeeeeet's euh go")
     setErrMsg("");
     setLoading(true);
     try {
 
-      const nbSlider = 10;
+      const nbSlider = 40;
       const filterType = "onlyViewed";
       const kataType = challengeType;
       const id = user.id
@@ -145,6 +143,7 @@ console.log("beau dix", body)
           timeoutMinutes,
           limitEnabled: activeLimit,
           cards: json.data,
+          challengeType: challengeType
         });
 
       }
@@ -154,6 +153,7 @@ console.log("beau dix", body)
       const cardsWithImageKey = json.data.map(card => ({
         ...card,
         imageKey: `${card.number}-${card.type}-${card.name}`
+        // "10-hirgana-su"
       }));
 
       const cardsFromApi = Array.isArray(cards) ? cards : [];
@@ -172,7 +172,8 @@ console.log( "normalized" , normalized[0] )
         timeoutMinutes,
         limitEnabled: activeLimit,
         cards: normalized,
-        cards: cardsWithImageKey
+        cards: cardsWithImageKey,
+        challengeType: challengeType
       });
 
     } catch (e) {
