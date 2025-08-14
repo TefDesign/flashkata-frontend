@@ -6,6 +6,7 @@ const initialState = {
   id: null,
   theme: "light",
   hasDisabledListening: false,
+  avatar: null,
 };
 
 export const usersSlice = createSlice({
@@ -28,9 +29,12 @@ export const usersSlice = createSlice({
     disabledListening: (state, action) => {
       state.hasDisabledListening = action.payload;
     },
+    updateAvatar: (state, action) => {
+      state.avatar = action.payload;
+    },
   },
 });
 
-export const { login, logout, changeTheme, disabledListening } =
+export const { login, logout, changeTheme, disabledListening, updateAvatar } =
   usersSlice.actions;
 export default usersSlice.reducer;
