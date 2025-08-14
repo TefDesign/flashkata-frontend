@@ -7,9 +7,9 @@ import { getSvgRequire } from "../utils/svgMap";
 import useThemedStyles from "../hooks/useThemedStyles";
 
 const KataRead = (props) => {
-  const { image, name, word = null } = props;
+  const { image, name, number, type , word = null } = props;
 
-  const SvgComponent = getSvgRequire(name);
+  const SvgComponent = getSvgRequire(`${number}-${type}-${name}`);
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -37,8 +37,8 @@ const KataRead = (props) => {
         />
       )}
 
-      {name && <Text style={styles.name}>{name}sss</Text>}
-      {word && <Text style={styles.word}>{word}aaa</Text>}
+     {/* {name && <Text style={styles.name}>{name} {number} {type}</Text>} */}
+
     </View>
   );
 };

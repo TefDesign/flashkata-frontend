@@ -1,6 +1,7 @@
 //Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import HomeScreen from "./screens/HomeScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import SignInScreen from "./screens/SignInScreen";
@@ -20,7 +21,9 @@ import SyllabaireScreen from "./screens/SyllabaireScreen";
 import KanaScreen from "./screens/KanaScreen";
 import ScoreScreen from "./screens/ScoreScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen.js";
-//import LearnScreen from "./screens/LearnScreen.js";
+
+import LearnScreen from "./screens/LearnScreen.js";
+import LoadingScreen from "./screens/LoadingScreen.js";
 
 // Google Font
 import { useFonts } from "expo-font";
@@ -72,10 +75,11 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
@@ -98,10 +102,14 @@ export default function App() {
             <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
             <Stack.Screen name="KanaScreen" component={KanaScreen} />
             <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
-            {/*<Stack.Screen name="Learn" component={LearnScreen} />*/}
+
+            <Stack.Screen name="Learn" component={LearnScreen} />
+            <Stack.Screen name="Loading" component={LoadingScreen} />
+
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
     </Provider>
+    </GestureHandlerRootView>
   );
 }

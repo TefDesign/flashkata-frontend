@@ -7,19 +7,16 @@ import theme from "../styles/themeLight";
 import Animated, {
   interpolate,
   useAnimatedStyle,
-  useDerivedValue,
   withTiming,
 } from "react-native-reanimated";
 import useThemedStyles from "../hooks/useThemedStyles";
 import { getSound } from "../utils/soundsMap";
 
 const Card = (props) => {
-  const { kata, flipped = false, direction = "y", duration = 500 } = props;
-  console.log("Cards.js : flipped => ", flipped);
+  const { kata, isFlipped, direction = "y", duration = 500 } = props;
 
-  // chaque carte crée SON hook une seule fois
-  const isFlipped = useDerivedValue(() => (flipped ? 1 : 0));
   const isDirectionX = direction === "x";
+  //console.log('kata :', kata)
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({

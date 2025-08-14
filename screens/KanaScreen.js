@@ -16,6 +16,10 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import HeaderSecondary from "../components/HeaderSecondary";
 import useThemedStyles from "../hooks/useThemedStyles";
 import { HIRAGANA_SOUNDS } from "../utils/soundsMap";
+import ButtonIcon from "../components/ButtonIcon";
+import soundRed from "../assets/icons/soundRed";
+import { useAudioPlayer } from "expo-audio";
+import { getSound } from "../utils/soundsMap.js";
 
 export default function KanaScreen({ navigation, route }) {
 
@@ -126,6 +130,15 @@ export default function KanaScreen({ navigation, route }) {
   const SvgComponent = getSvgRequire(svgKey);
 
 
+    const sourceKana = getSound(kanaName); 
+    const playerKana = useAudioPlayer(sourceKana);
+
+    const handleSound = async () => {
+    // Avec expo-audio, la position ne se réinitialise pas toute seule :
+    // on remet au début puis on joue (cf. note de la doc).
+    await playerKana.seekTo(0);
+    await playerKana.play();
+  };
 
   const borderColor = (priority) => {
     if (priority > 0.9) { return "#ff0000ff" }
@@ -215,6 +228,7 @@ export default function KanaScreen({ navigation, route }) {
           <Text style={styles.textLarge}>Correcte : <Text style={{ color: "green" }}>{nbCorrect}</Text> fois</Text>
           <Text style={styles.textLarge}>Erreur : <Text style={{ color: "red" }}>{nbWrong}</Text> fois</Text>
         </View>
+          <ButtonIcon icon={soundRed} onPress={handleSound} />
       </View>
     </SafeAreaView>
   );
