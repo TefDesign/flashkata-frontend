@@ -80,6 +80,12 @@ const ProgressionScreen = ({ navigation }) => {
   const [dataKata, setDataKatakana] = useState()
   const [dataHira, setDataHiragana] = useState()
 
+  const calculProgress = (kana) => {
+    if (kana.nbViews > 0 && kana.priority < 0.25) {return 1}
+    else if (kana.nbViews > 0 && kana.priority < 0.5) {return 0.75}
+    else if (kana.nbViews > 0 && kana.priority < 0.75) {return 0.5}
+    else {return 0}
+  }
 
   const getProgress = async () => {
     try {
@@ -89,8 +95,8 @@ const ProgressionScreen = ({ navigation }) => {
       const respHiragana = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${'hiragana'}`)
       const dataHiragana = await respHiragana.json()
 
-      setHiraganaProgress(dataHiragana.data.reduce((acc, kana) => acc + (kana.nbViews > 0 ? 1 : 0), 0))
-      setKatakanaProgress(dataKatakana.data.reduce((acc, kana) => acc + (kana.nbViews > 0 ? 1 : 0), 0))
+      setHiraganaProgress(dataHiragana.data.reduce((acc, kana) => acc + calculProgress(kana), 0))
+      setKatakanaProgress(dataKatakana.data.reduce((acc, kana) => acc + calculProgress(kana), 0))
 
       setDataKatakana(dataKatakana.data)
       setDataHiragana(dataHiragana.data)
@@ -103,7 +109,6 @@ const ProgressionScreen = ({ navigation }) => {
 
   useEffect(() => {
     getProgress()
-    katakanaProgress
   }, [])
 
 

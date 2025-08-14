@@ -6,12 +6,13 @@ import { useNavigation } from "@react-navigation/native";
 import useThemedStyles from "../hooks/useThemedStyles";
 import { useRoute } from '@react-navigation/native';
 
-const HeaderSecondary = ({ isArrowBack = true, isAvatar = true }) => {
+const HeaderSecondary = ({ isArrowBack = true, isAvatar = true, color = '' }) => {
   const onlyAvatar = !isArrowBack && isAvatar;
   const navigation = useNavigation();
 
   const route = useRoute();
   console.log(route.name);
+
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -28,8 +29,6 @@ const HeaderSecondary = ({ isArrowBack = true, isAvatar = true }) => {
     })
   );
 
-
-
   return (
     <View style={[styles.headerContainer, onlyAvatar && styles.onlyAvatar]}>
       {isArrowBack && (
@@ -37,7 +36,7 @@ const HeaderSecondary = ({ isArrowBack = true, isAvatar = true }) => {
           <ArrowBackIcon
             width={40}
             height={40}
-            style={{ color: theme.colors.text }}
+            style={{ color: color === '' ? theme.colors.text : color }}
           />
         </TouchableOpacity>
       )}
