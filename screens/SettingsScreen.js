@@ -104,12 +104,15 @@ const makeStyles = (theme) =>
     text: {
       fontFamily: theme.fonts.outfitRegular,
       fontSize: theme.fontSize.text,
+      color: theme.colors.text,
     },
     smallText: {
       fontFamily: theme.fonts.outfitRegular,
       fontSize: theme.fontSize.small,
       color: theme.colors.text,
       opacity: 0.4,
+      flexWrap: "wrap",
+      width: "90%",
     },
     optionsContainer: {
       gap: theme.spacing.medium,
