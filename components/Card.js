@@ -40,7 +40,7 @@ const Card = (props) => {
       },
       text: {
         textAlign: "center",
-        fontSize: 300,
+        fontSize: 150,
         color: theme.colors.text,
         fontFamily: theme.fonts.outfitRegular,
       },
