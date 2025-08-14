@@ -21,6 +21,7 @@ import SyllabaireScreen from "./screens/SyllabaireScreen";
 import KanaScreen from "./screens/KanaScreen";
 import ScoreScreen from "./screens/ScoreScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen.js";
+
 import LearnScreen from "./screens/LearnScreen.js";
 import LoadingScreen from "./screens/LoadingScreen.js";
 
@@ -101,8 +102,10 @@ export default function App() {
             <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
             <Stack.Screen name="KanaScreen" component={KanaScreen} />
             <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
+
             <Stack.Screen name="Learn" component={LearnScreen} />
             <Stack.Screen name="Loading" component={LoadingScreen} />
+
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

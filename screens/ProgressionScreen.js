@@ -111,7 +111,11 @@ const ProgressionScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <HeaderSecondary />
       <View style={styles.logo}>
-        <LogoIcon width={256} height={136} />
+        <LogoIcon
+          width={256}
+          height={136}
+          style={{ color: theme.colors.text }}
+        />
       </View>
       <Text style={styles.title}>Progression</Text>
       <Pressable onPress={() => navigation.navigate("Syllabaire", { type: "hiragana", data: dataHira })}>
