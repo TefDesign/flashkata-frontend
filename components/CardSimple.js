@@ -6,8 +6,39 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 import theme from "../styles/themeLight";
 import { getSvgRequire } from "../utils/svgMap";
 import { useEffect, useState } from "react";
+import useThemedStyles from "../hooks/useThemedStyles";
 
 const CardSimple = (props) => {
+  const [theme, styles] = useThemedStyles((theme) =>
+    StyleSheet.create({
+      container: {
+        width: Dimensions.get("window").width / 1.2,
+        height: Dimensions.get("window").height / 1.7,
+        alignItems: "center",
+        justifyContent: "center",
+        borderColor: theme.colors.borderCard,
+        borderWidth: 10,
+        borderRadius: theme.borderRadius.card,
+      },
+      content: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        //backgroundColor: "#ffffff",
+      },
+      title: {
+        fontSize: 300,
+        color: "#ffffff",
+      },
+      text: {
+        textAlign: "center",
+        marginTop: "auto",
+        fontSize: 300,
+        marginBottom: 20,
+      },
+    })
+  );
+
   const { image, name, word, isTuto = false } = props;
   const SvgComponent = getSvgRequire(image);
   const [hasValidated, setHasValidated] = useState(false);
@@ -50,31 +81,3 @@ const CardSimple = (props) => {
 };
 
 export default CardSimple;
-
-const styles = StyleSheet.create({
-  container: {
-    width: Dimensions.get("window").width / 1.2,
-    height: Dimensions.get("window").height / 1.7,
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: theme.colors.borderCard,
-    borderWidth: 10,
-    borderRadius: theme.borderRadius.card,
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    //backgroundColor: "#ffffff",
-  },
-  title: {
-    fontSize: 300,
-    color: "#ffffff",
-  },
-  text: {
-    textAlign: "center",
-    marginTop: "auto",
-    fontSize: 300,
-    marginBottom: 20,
-  },
-});
