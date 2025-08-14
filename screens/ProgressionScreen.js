@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { API_URL } from "@env";
 
 const ProgressionScreen = ({ navigation }) => {
+    const [rez, setRez] = useState(false);
+
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -90,6 +92,7 @@ const ProgressionScreen = ({ navigation }) => {
   const getProgress = async () => {
     try {
 
+
       const respKatakana = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${"katakana"}`)
       const dataKatakana = await respKatakana.json()
       const respHiragana = await fetch(`${API_URL}/progress/userProgress/${user.token}/${user.id}/${'hiragana'}`)
@@ -110,6 +113,40 @@ const ProgressionScreen = ({ navigation }) => {
   useEffect(() => {
     getProgress()
   }, [])
+
+
+
+
+const reset = async() => {
+  try {
+    if (!rez) {
+      setRez(true);
+      setTimeout(() => setRez(false), 5000);
+      return;
+    }
+
+    const resp = await fetch(`${API_URL}/progress/reset`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`
+      },
+      body: JSON.stringify({
+        id: user.id,
+        token: user.token
+      })
+    });
+    const data = await resp.json();
+    if (data.result) {
+      getProgress();
+      setRez(false);
+    } else {
+      console.log('Erreur lors du reset:', data.message);
+    }
+  } catch (error) {
+    console.log('Erreur fetch:', error);
+  }
+};
 
 
   return (
@@ -136,7 +173,7 @@ const ProgressionScreen = ({ navigation }) => {
         </View>
       </Pressable>
       <View style={styles.ResetContainer}>
-        <Button title="Réinitialiser" />
+        <Button title={!rez ? "Réinitialiser" : "Êtes-vous sûr de vouloir réinitialiser vos statistiques ?"} onPress={reset} style={{ backgroundColor: !rez ? "#ff0000ff" : "#440000ff" }} />
         <Text style={styles.infoReset}>Vos statistiques seront perdues</Text>
       </View>
       <Settings />
