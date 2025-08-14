@@ -80,36 +80,44 @@ export default function App() {
         <PersistGate persistor={persistor}>
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-            <Stack.Screen name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="DiscoverApp" component={DiscoverAppScreen} />
-            <Stack.Screen name="MainMenu" component={MainMenuScreen} />
-            <Stack.Screen name="Tutorial" component={TutorialScreen} />
-            <Stack.Screen name="TutorialSwipeBottom" component={TutorialSwipeBottomScreen} />
-            <Stack.Screen name="TutorialSwipeUp" component={TutorialSwipeUpScreen} />
-            <Stack.Screen
-              name="IntroJapanese"
-              component={IntroJapaneseScreen}
-            />
-            <Stack.Screen name="Hiragana" component={HiraganaScreen} />
-            <Stack.Screen name="Katakana" component={KatakanaScreen} />
-            <Stack.Screen name="ReviewAll" component={ReviewAllScreen} />
-            <Stack.Screen name="Challenge" component={ChallengeScreen} />
-            <Stack.Screen name="Progression" component={ProgressionScreen} />
-            <Stack.Screen name="Score" component={ScoreScreen} />
-            <Stack.Screen name="Settings" component={SettingsScreen} />
-            <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
-            <Stack.Screen name="KanaScreen" component={KanaScreen} />
-            <Stack.Screen name="UserSettings" component={UserSettingsScreen} />
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="SignUp" component={SignUpScreen} />
+              <Stack.Screen name="SignIn" component={SignInScreen} />
+              <Stack.Screen name="DiscoverApp" component={DiscoverAppScreen} />
+              <Stack.Screen name="MainMenu" component={MainMenuScreen} />
+              <Stack.Screen name="Tutorial" component={TutorialScreen} />
+              <Stack.Screen
+                name="TutorialSwipeBottom"
+                component={TutorialSwipeBottomScreen}
+              />
+              <Stack.Screen
+                name="TutorialSwipeUp"
+                component={TutorialSwipeUpScreen}
+              />
+              <Stack.Screen
+                name="IntroJapanese"
+                component={IntroJapaneseScreen}
+              />
+              <Stack.Screen name="Hiragana" component={HiraganaScreen} />
+              <Stack.Screen name="Katakana" component={KatakanaScreen} />
+              <Stack.Screen name="ReviewAll" component={ReviewAllScreen} />
+              <Stack.Screen name="Challenge" component={ChallengeScreen} />
+              <Stack.Screen name="Progression" component={ProgressionScreen} />
+              <Stack.Screen name="Score" component={ScoreScreen} />
+              <Stack.Screen name="Settings" component={SettingsScreen} />
+              <Stack.Screen name="Syllabaire" component={SyllabaireScreen} />
+              <Stack.Screen name="KanaScreen" component={KanaScreen} />
+              <Stack.Screen
+                name="UserSettings"
+                component={UserSettingsScreen}
+              />
 
-            <Stack.Screen name="Learn" component={LearnScreen} />
-            <Stack.Screen name="Loading" component={LoadingScreen} />
-
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+              <Stack.Screen name="Learn" component={LearnScreen} />
+              <Stack.Screen name="Loading" component={LoadingScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PersistGate>
+      </Provider>
     </GestureHandlerRootView>
   );
 }
