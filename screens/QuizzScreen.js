@@ -64,7 +64,7 @@ const QuizzScreen = () => {
   const totalTimerRef = useRef(null);
   const tickRef = useRef(null);
   const [timeLeft, setTimeLeft] = useState(60);
-  const [nbQuestionPerQuizz, setNbQuestionPerQuizz] = useState(10); // a chercher dans le fetch
+  // const [nbQuestionPerQuizz, setNbQuestionPerQuizz] = useState(10); // a chercher dans le fetch
   const [remainingMs, setRemainingMs] = useState(TOTAL_MS);
 
   const nextQuizzAuto = limitEnabled ? 300 : 500;
@@ -203,10 +203,10 @@ useEffect(() => {
     }
 
     setTimeout(() => {
-      if (questionNumber >= nbQuestionPerQuizz){
-        setFinished(true)
-        return;
-      }
+      // if (questionNumber >= nbQuestionPerQuizz){
+      //   setFinished(true)
+      //   return;
+      // }
       setPicked(null);
       newQuestion();
       setQuestionNumber((n) => n + 1);
@@ -240,7 +240,8 @@ useEffect(() => {
           <View style={styles.ScoreContainer}>
             <Text style={styles.instructionsTextJap}>おめでとう</Text>
             <Text style={styles.instructionsText}>Félicitations!</Text>
-            <Text style={styles.instructionsText}>Score : {score} / {nbQuestionPerQuizz}</Text>
+            <Text style={styles.instructionsText}>Score : {score}</Text>
+            {/* <Text style={styles.instructionsText}>Score : {score} / {nbQuestionPerQuizz}</Text> */}
           </View>
 
           <TouchableOpacity 
@@ -287,14 +288,15 @@ useEffect(() => {
       
       
       <View style={styles.questionNumberView}>
-        <Text style={styles.questionNumberText}>
+        {/* <Text style={styles.questionNumberText}>
           {questionNumber} / {nbQuestionPerQuizz}
-        </Text>
+        </Text> */}
         {/* {limitEnabled && (
                 <Text style={styles.timerTxt}>{timeLeft}</Text>
             )} */}
+            {limitEnabled && (
         <Text style={styles.scoreText}>Score : {score}</Text>
-        
+        )} 
       </View>
 
       <View style={styles.AnswerContainer}>

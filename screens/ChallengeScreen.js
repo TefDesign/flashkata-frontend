@@ -91,7 +91,8 @@ const ChallengeScreen = ({ navigation }) => {
 
   const startChallenge = async () => {
 
-console.log("Leeeeeeeet's euh go")
+    if(hiraActive || kataActive || allActive){
+      console.log("Leeeeeeeet's euh go")
     setErrMsg("");
     setLoading(true);
     try {
@@ -181,6 +182,11 @@ console.log( "normalized" , normalized[0] )
       setLoading(false);
       console.warn(e);
     }
+    }
+
+    else { alert("Merci de sélectionner un type de challenge") }
+
+
   };
 
   const hiraActive = challengeType === 'hiragana';
