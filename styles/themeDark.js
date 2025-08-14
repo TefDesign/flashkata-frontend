@@ -11,7 +11,7 @@ const dark = {
     border: "#D6D6D6",
     borderCard: "#FEBFBF",
     dark: "#0C0C2E",
-    switchBgOn: "#343470ff",
+    switchBgOn: "#73b576ff",
     switchBgOff: "#8686a8ff",
     switchCursor: "#414151ff",
     sliderCursor: "#414151ff",
