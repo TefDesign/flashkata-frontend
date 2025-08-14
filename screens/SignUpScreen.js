@@ -14,12 +14,15 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/users";
 import { API_URL } from "@env";
+import HeaderSecondary from "../components/HeaderSecondary";
 
 export default function SignUpScreen({ navigation }) {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+
 
   const handleSignup = () => {
     fetch(`${API_URL}/users/signup`, {
@@ -45,6 +48,7 @@ export default function SignUpScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <HeaderSecondary isAvatar={false} color="black"/>
       <View style={styles.logo}>
         <LogoIcon
           width={280}

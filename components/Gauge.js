@@ -4,7 +4,7 @@ import theme from "../styles/themeLight";
 const Gauge = ({ progress = 0 }) => {
   return (
     <View style={styles.container}>
-      <View style={[styles.progress, { width: `${progress}%` }]}>
+      <View style={[styles.progress, { width: `${(progress / 46) * 100}%` }]}>
         <Text style={styles.text}>{progress}</Text>
       </View>
     </View>
