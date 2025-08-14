@@ -6,8 +6,8 @@ import Settings from "../components/Settings";
 import HeaderSecondary from "../components/HeaderSecondary";
 import CardSimple from "../components/CardSimple";
 import Button from "../components/Button";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 const TutorialSwipeUpScreen = ({ navigation }) => {
   const [theme, styles] = useThemedStyles((theme) =>
@@ -24,10 +24,12 @@ const TutorialSwipeUpScreen = ({ navigation }) => {
       },
       text: {
         fontFamily: theme.fonts.outfitRegular,
-        fontSize: theme.fontSize.text,
-        alignSelf: "flex-start",
+        fontSize: 18,
+        alignSelf: "center",
         color: theme.colors.text,
         position: "absolute",
+        bottom: 30,
+        width: "80%",
         textAlign: "center",
         paddingHorizontal: theme.spacing.small,
         paddingTop: theme.spacing.large,
@@ -40,42 +42,46 @@ const TutorialSwipeUpScreen = ({ navigation }) => {
         position: "relative",
         width: "100%",
         alignItems: "center",
+        marginBottom: theme.spacing.medium,
       },
-      card: {
-        opacity: 0.2,
+      arrowTop: {
+        position: "absolute",
+        top: "27%",
       },
     })
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderSecondary isAvatar={false}/>
+      <HeaderSecondary isAvatar={false} />
       <View style={styles.logo}>
         <LogoIcon
-          width={256}
-          height={136}
+          width={186}
+          height={66}
           style={{ color: theme.colors.text }}
         />
       </View>
 
       <View style={styles.tutoContainer}>
-      <View style={styles.card}>
-        <CardSimple image="01-hiragana-a"/>
-      </View>
-        <Text style={styles.text}>Swiper en haut si vous considérez la carte apprise.</Text>
+        <View style={styles.card}>
+          <CardSimple image="01-hiragana-a" isTuto />
+        </View>
+        <Text style={styles.text}>
+          Swiper en haut si vous considérez la carte apprise.
+        </Text>
       </View>
       <FontAwesomeIcon
         icon={faArrowUp}
         size={80}
         color={theme.colors.text}
-        style={{ position: "absolute", top: "56%" }}
+        style={styles.arrowTop}
       />
 
       <Settings />
       <View style={styles.button}>
         <Button
           title="À vous de jouer !"
-          //onPress={() => navigation.navigate("")}
+          onPress={() => navigation.navigate("MainMenu")}
         />
       </View>
     </SafeAreaView>

@@ -8,7 +8,7 @@ import { getSvgRequire } from "../utils/svgMap";
 import { useEffect, useState } from "react";
 
 const CardSimple = (props) => {
-  const { image, name, word } = props;
+  const { image, name, word, isTuto = false } = props;
   const SvgComponent = getSvgRequire(image);
   const [hasValidated, setHasValidated] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -35,7 +35,9 @@ const CardSimple = (props) => {
       <View style={styles.content}>
         {SvgComponent && (
           <SvgComponent
-            color={hasValidated ? "#ffffff" : theme.colors.text}
+            color={
+              isTuto ? "#ffffff" : hasValidated ? "#ffffff" : theme.colors.text
+            }
             width={300}
             height={300}
           />
