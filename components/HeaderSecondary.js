@@ -4,10 +4,14 @@ import ArrowBackIcon from "../assets/icons/arrowback.svg";
 import AvatarIcon from "../assets/icons/avatar";
 import { useNavigation } from "@react-navigation/native";
 import useThemedStyles from "../hooks/useThemedStyles";
+import { useRoute } from '@react-navigation/native';
 
 const HeaderSecondary = ({ isArrowBack = true, isAvatar = true }) => {
   const onlyAvatar = !isArrowBack && isAvatar;
   const navigation = useNavigation();
+
+  const route = useRoute();
+  console.log(route.name);
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -24,10 +28,12 @@ const HeaderSecondary = ({ isArrowBack = true, isAvatar = true }) => {
     })
   );
 
+
+
   return (
     <View style={[styles.headerContainer, onlyAvatar && styles.onlyAvatar]}>
       {isArrowBack && (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => {route.name === "Learn" ? navigation.navigate("MainMenu") : navigation.goBack()}}>
           <ArrowBackIcon
             width={40}
             height={40}

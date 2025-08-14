@@ -43,13 +43,13 @@ const MainMenuScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("IntroJapanese")}>
         <Text style={styles.menu}>Introduction au japonais</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Hiragana")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Loading", {typeKana : 'hiragana', nbSlider : 10, typeFilter : 'neverViewed'})}>
         <Text style={styles.menu}>Hiragana</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Katakana")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Loading", {typeKana : 'katakana', nbSlider : 10, typeFilter : 'neverViewed'})}>
         <Text style={styles.menu}>Katakana</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("ReviewAll")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Loading", {typeKana : 'all', nbSlider : 10, typeFilter : 'onlyViewed'})}>
         <Text style={styles.menu}>Tout réviser</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate("Challenge")}>
@@ -58,12 +58,12 @@ const MainMenuScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate("Progression")}>
         <Text style={styles.menu}>Progression</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Learn")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Loading", {typeFilter : 'learn'}  )}>
         <Text style={styles.menu}>Apprendre</Text>
       </TouchableOpacity>
       <Settings />
     </SafeAreaView>
   );
 };
-
+// typeKana, typeFilter, nbSlider
 export default MainMenuScreen;
