@@ -47,6 +47,7 @@ export default function SignUpScreen({ navigation }) {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={100}
     >
       <HeaderSecondary isAvatar={false} color="black"/>
       <View style={styles.logo}>
