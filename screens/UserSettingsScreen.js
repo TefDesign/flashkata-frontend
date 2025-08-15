@@ -69,6 +69,13 @@ const UserSettingsScreen = () => {
       button: {
         width: "100%",
         margin: theme.spacing.medium,
+        paddingHorizontal: theme.spacing.large,
+      },
+      hiddenButton: {
+        margin: theme.spacing.large,
+      },
+      hiddenButtonBack: {
+        paddingHorizontal: theme.spacing.large,
       },
       text: {
         fontFamily: theme.fonts.staatliches,
@@ -120,11 +127,19 @@ const UserSettingsScreen = () => {
             onChangeText={(value) => setConfirmNewPassword(value)}
             value={confirmNewPassword}
           />
+          <View style={styles.hiddenButton}>
+            <Button title="Valider" onPress={() => handleModifyPassword()} />
+          </View>
+          <View style={styles.hiddenButtonBack}>
+            <Button 
+              variant="outline" 
+              title="Annuler modification" 
+              onPress={() => setShowModificationPassword(!showModificationPassword)} 
+            />
+          </View>
         </View>
       )}
-      <View style={styles.button}>
-        <Button title="Valider" onPress={() => handleModifyPassword()} />
-      </View>
+      
     </SafeAreaView>
   );
 };
