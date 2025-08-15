@@ -17,13 +17,13 @@ const HeaderSecondary = ({
   isArrowBack = true,
   isAvatar = true,
   color = "",
+  isOnDeck = false,
 }) => {
   const onlyAvatar = !isArrowBack && isAvatar;
   const navigation = useNavigation();
   const avatar = useSelector((state) => state.users.avatar);
 
   const route = useRoute();
-  console.log(route.name);
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -40,14 +40,16 @@ const HeaderSecondary = ({
     })
   );
 
+  const changeBackArrow = () => {
+    return isOnDeck ? navigation.popTo("MainMenu") : navigation.goBack();
+  };
+
   return (
     <View style={[styles.headerContainer, onlyAvatar && styles.onlyAvatar]}>
       {isArrowBack && (
         <TouchableOpacity
           onPress={() => {
-            route.name === "Learn"
-              ? navigation.navigate("MainMenu")
-              : navigation.goBack();
+            changeBackArrow();
           }}
         >
           <ArrowBackIcon

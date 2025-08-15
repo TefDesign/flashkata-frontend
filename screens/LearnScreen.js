@@ -29,18 +29,14 @@ import { API_URL } from "@env";
 
 import { useSelector } from "react-redux";
 
-
 const LearnScreen = ({ navigation, route }) => {
-
-  const user = useSelector((state) => state.users)
+  const user = useSelector((state) => state.users);
   const { cardsDatas } = route.params;
-
 
   // Créer un tableau de SharedValues, une pour chaque carte pour le flip individuel
   const isFlippedArray = cardsDatas.map(() => useSharedValue(false));
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const swiperRef = useRef(null);
-
 
   const scoring = async (type) => {
     try {
@@ -50,19 +46,18 @@ const LearnScreen = ({ navigation, route }) => {
         body: JSON.stringify({
           userId: user.id,
           token: user.token,
-          [cardsDatas[currentCardIndex].type === 'katakana' ? 'katakana' : 'hiragana']: cardsDatas[currentCardIndex]._id,
-          [type ? "nbCorrect" : "nbWrong"] : 1
+          [cardsDatas[currentCardIndex].type === "katakana"
+            ? "katakana"
+            : "hiragana"]: cardsDatas[currentCardIndex]._id,
+          [type ? "nbCorrect" : "nbWrong"]: 1,
         }),
-      })
-      const data = await resp.json()
-      console.log(data)
-
+      });
+      const data = await resp.json();
+      console.log(data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-
-
+  };
 
   const playerShuffleCard = useAudioPlayer(
     require("../assets/effects/shuffle.wav")
@@ -98,14 +93,13 @@ const LearnScreen = ({ navigation, route }) => {
     await playerKana.play();
   };
 
-  console.log(cardsDatas[currentCardIndex])
+  console.log(cardsDatas[currentCardIndex]);
 
   const doneCard = async (cardIndex) => {
     console.log("Done", cardIndex);
     playerSwipeCard.seekTo(0);
     playerSwipeCard.play();
-    scoring(true)
-
+    scoring(true);
 
     isFlippedArray[cardIndex].value = false;
   };
@@ -114,14 +108,12 @@ const LearnScreen = ({ navigation, route }) => {
     console.log("Keep card", cardIndex);
     playerSwipeCard.seekTo(0);
     playerSwipeCard.play();
-    scoring(false)
-
+    scoring(false);
 
     isFlippedArray[cardIndex].value = false;
   };
 
   const [theme, styles] = useThemedStyles((theme) =>
-
     StyleSheet.create({
       container: {
         flex: 1,
@@ -171,7 +163,7 @@ const LearnScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderSecondary />
+      <HeaderSecondary isOnDeck />
       <Swiper
         ref={swiperRef}
         cards={cardsDatas}
@@ -212,7 +204,6 @@ const LearnScreen = ({ navigation, route }) => {
       <View style={styles.buttonBottomContainer}>
         <ButtonIcon icon={flip} onPress={handlePress} />
         <ButtonIcon icon={soundRed} onPress={handleSound} />
-
       </View>
     </SafeAreaView>
   );
