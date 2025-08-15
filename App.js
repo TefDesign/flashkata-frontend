@@ -8,8 +8,10 @@ import SignInScreen from "./screens/SignInScreen";
 import DiscoverAppScreen from "./screens/DiscoverAppScreen";
 import MainMenuScreen from "./screens/MainMenuScreen";
 import TutorialScreen from "./screens/TutorialScreen";
+
 import TutorialSwipeBottomScreen from "./screens/TutorialSwipeBottomScreen.js";
 import TutorialSwipeUpScreen from "./screens/TutorialSwipeUpScreen.js";
+
 import IntroJapaneseScreen from "./screens/IntroJapaneseScreen";
 import HiraganaScreen from "./screens/HiraganaScreen";
 import KatakanaScreen from "./screens/KatakanaScreen";
@@ -21,6 +23,7 @@ import SyllabaireScreen from "./screens/SyllabaireScreen";
 import KanaScreen from "./screens/KanaScreen";
 import ScoreScreen from "./screens/ScoreScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen.js";
+import QuizzScreen from "./screens/QuizzScreen.js";
 
 import LearnScreen from "./screens/LearnScreen.js";
 import LoadingScreen from "./screens/LoadingScreen.js";
@@ -114,6 +117,7 @@ export default function App() {
 
               <Stack.Screen name="Learn" component={LearnScreen} />
               <Stack.Screen name="Loading" component={LoadingScreen} />
+              <Stack.Screen name="Quizz" component={QuizzScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>

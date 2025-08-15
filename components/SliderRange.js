@@ -5,11 +5,19 @@ import theme from "../styles/themeLight";
 import useThemedStyles from "../hooks/useThemedStyles";
 
 const SliderRange = (props) => {
-  const { mode = "cards" } = props;
+  const { 
+    mode = "cards",
+    value,
+    onChange
+  } = props;
+  
+  const [internal, setInternal] = useState(mode === "cards" ? 5 : 1);
+  const sliderValue = value ?? internal;
+  const setSliderValue = (v) => (onChange ? onChange(v) : setInternal(v));
 
-  const [sliderValue, setSliderValue] = useState(mode === "cards" ? 5 : 1);
+  // const [sliderValue, setSliderValue] = useState(mode === "cards" ? 5 : 1);
 
-  const getMode = () => {
+  const getMode = () => { 
     if (mode === "time") {
       return {
         display: `${sliderValue} min`,

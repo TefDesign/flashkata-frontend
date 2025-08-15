@@ -159,4 +159,6 @@ export const HIRAGANA_SOUNDS = {
 
 export function getSound(name) {
   return HIRAGANA_SOUNDS[name] || null;
+
 }
+

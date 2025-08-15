@@ -65,7 +65,7 @@ const TutorialScreen = ({ navigation }) => {
 
       <View style={styles.tutoContainer}>
         <View style={styles.card}>
-          <CardSimple image="01-hiragana-a" isTuto />
+          <CardSimple number="01" type="hiragana" name="a" isTuto />
         </View>
         <View style={styles.textLine}>
           <Text style={styles.text}>Vous pourrez cliquer sur l'icone </Text>

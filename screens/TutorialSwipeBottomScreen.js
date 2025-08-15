@@ -59,7 +59,7 @@ const TutorialSwipeBottomScreen = ({ navigation }) => {
 
       <View style={styles.tutoContainer}>
         <View style={styles.card}>
-          <CardSimple image="01-hiragana-a" isTuto />
+          <CardSimple number="01" type="hiragana" name="a" isTuto />
         </View>
         <Text style={styles.text}>
           Swiper la carte vers le bas pour continuer à l'apprendre (la garder

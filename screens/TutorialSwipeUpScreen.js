@@ -64,7 +64,7 @@ const TutorialSwipeUpScreen = ({ navigation }) => {
 
       <View style={styles.tutoContainer}>
         <View style={styles.card}>
-          <CardSimple image="01-hiragana-a" isTuto />
+          <CardSimple number="01" type="hiragana" name="a" isTuto />
         </View>
         <Text style={styles.text}>
           Swiper en haut si vous considérez la carte apprise.
