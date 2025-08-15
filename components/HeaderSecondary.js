@@ -11,15 +11,8 @@ import AvatarIcon from "../assets/icons/avatar";
 import { useNavigation } from "@react-navigation/native";
 import useThemedStyles from "../hooks/useThemedStyles";
 import { useRoute } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-const HeaderSecondary = ({
-  isArrowBack = true,
-  isAvatar = true,
-  color = "",
-  isOnDeck = false,
-}) => {
 const HeaderSecondary = ({
   isArrowBack = true,
   isAvatar = true,
@@ -31,7 +24,6 @@ const HeaderSecondary = ({
   const avatar = useSelector((state) => state.users.avatar);
 
   const route = useRoute();
-  console.log(route.name);
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -47,9 +39,7 @@ const HeaderSecondary = ({
       },
     })
   );
-  const changeBackArrow = () => {
-    return isOnDeck ? navigation.popTo("MainMenu") : navigation.goBack();
-  };
+
   const changeBackArrow = () => {
     return isOnDeck ? navigation.popTo("MainMenu") : navigation.goBack();
   };
@@ -57,11 +47,6 @@ const HeaderSecondary = ({
   return (
     <View style={[styles.headerContainer, onlyAvatar && styles.onlyAvatar]}>
       {isArrowBack && (
-        <TouchableOpacity
-          onPress={() => {
-            changeBackArrow();
-          }}
-        >
         <TouchableOpacity
           onPress={() => {
             changeBackArrow();
@@ -75,9 +60,6 @@ const HeaderSecondary = ({
         </TouchableOpacity>
       )}
 
-      {isAvatar && (
-        <TouchableOpacity onPress={() => navigation.navigate("UserSettings")}>
-          <AvatarIcon width={40} height={40} />
       {isAvatar && (
         <TouchableOpacity onPress={() => navigation.navigate("UserSettings")}>
           {avatar ? (
