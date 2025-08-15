@@ -4,15 +4,19 @@ import ArrowBackIcon from "../assets/icons/arrowback.svg";
 import AvatarIcon from "../assets/icons/avatar";
 import { useNavigation } from "@react-navigation/native";
 import useThemedStyles from "../hooks/useThemedStyles";
-import { useRoute } from '@react-navigation/native';
+import { useRoute } from "@react-navigation/native";
 
-const HeaderSecondary = ({ isArrowBack = true, isAvatar = true, color = '' }) => {
+const HeaderSecondary = ({
+  isArrowBack = true,
+  isAvatar = true,
+  color = "",
+  isOnDeck = false,
+}) => {
   const onlyAvatar = !isArrowBack && isAvatar;
   const navigation = useNavigation();
 
   const route = useRoute();
   console.log(route.name);
-
 
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
@@ -28,21 +32,28 @@ const HeaderSecondary = ({ isArrowBack = true, isAvatar = true, color = '' }) =>
       },
     })
   );
+  const changeBackArrow = () => {
+    return isOnDeck ? navigation.popTo("MainMenu") : navigation.goBack();
+  };
 
   return (
     <View style={[styles.headerContainer, onlyAvatar && styles.onlyAvatar]}>
       {isArrowBack && (
-        <TouchableOpacity onPress={() => {route.name === "Learn" ? navigation.navigate("MainMenu") : navigation.goBack()}}>
+        <TouchableOpacity
+          onPress={() => {
+            changeBackArrow();
+          }}
+        >
           <ArrowBackIcon
             width={40}
             height={40}
-            style={{ color: color === '' ? theme.colors.text : color }}
+            style={{ color: color === "" ? theme.colors.text : color }}
           />
         </TouchableOpacity>
       )}
 
-      {isAvatar &&( 
-        <TouchableOpacity onPress={() => navigation.navigate('UserSettings')}>
+      {isAvatar && (
+        <TouchableOpacity onPress={() => navigation.navigate("UserSettings")}>
           <AvatarIcon width={40} height={40} />
         </TouchableOpacity>
       )}
