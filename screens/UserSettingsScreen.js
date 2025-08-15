@@ -1,8 +1,4 @@
-import {
-  StyleSheet, 
-  Text, 
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import LogoIcon from "../assets/icons/logo.svg";
 import HeaderSecondary from "../components/HeaderSecondary";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,29 +12,28 @@ import { useSelector } from "react-redux";
 import { API_URL } from "@env";
 
 const UserSettingsScreen = () => {
-
   const user = useSelector((state) => state.users);
 
-  const [showModificationPassword, setShowModificationPassword] = useState(false);
+  const [showModificationPassword, setShowModificationPassword] =
+    useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const handleModifyPassword = () => {
-
     if (!newPassword || !confirmNewPassword) {
-      alert("Champ vide.")
-      return
+      alert("Champ vide.");
+      return;
     }
 
     if (newPassword !== confirmNewPassword) {
-      alert("Les mots de passe ne sont pas identiques.")
-      return
+      alert("Les mots de passe ne sont pas identiques.");
+      return;
     }
 
     fetch(`${API_URL}/users/modify`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         id: user.id,
         token: user.token,
         password: newPassword,
@@ -56,32 +51,32 @@ const UserSettingsScreen = () => {
   };
 
   const [theme, styles] = useThemedStyles((theme) =>
-      StyleSheet.create({
-        container: {
-          flex: 1,
-          backgroundColor: theme.colors.background,
-          alignItems: "center",
-          paddingHorizontal: theme.spacing.large,
-        },
-        logo: {
-          marginBottom: 40,
-        },
-        setting: {
-          position: "absolute",
-          bottom: 30,
-          right: 30,
-        },
-        button: {
-          width: "100%",
-          margin: theme.spacing.medium,
-        },
-        text: {
-          fontFamily: theme.fonts.staatliches,
-          fontSize: theme.fontSize.menu,
-          color: theme.colors.text,
-        }
-      })
-    );
+    StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        alignItems: "center",
+        paddingHorizontal: theme.spacing.large,
+      },
+      logo: {
+        marginBottom: 40,
+      },
+      setting: {
+        position: "absolute",
+        bottom: 30,
+        right: 30,
+      },
+      button: {
+        width: "100%",
+        margin: theme.spacing.medium,
+      },
+      text: {
+        fontFamily: theme.fonts.staatliches,
+        fontSize: theme.fontSize.menu,
+        color: theme.colors.text,
+      },
+    })
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -93,18 +88,20 @@ const UserSettingsScreen = () => {
           style={{ color: theme.colors.text }}
         />
       </View>
-      <Avatar size="160" />
+      <Avatar size="160" isChange />
       <Text style={styles.text}>{user.username}</Text>
       <Settings />
 
       {!showModificationPassword && (
-      <View style={styles.button}>
-        <Button
-          variant = "outline"
-          title="Changer de mot de passe"
-          onPress={() => setShowModificationPassword(!showModificationPassword)}
-        />
-      </View>
+        <View style={styles.button}>
+          <Button
+            variant="outline"
+            title="Changer de mot de passe"
+            onPress={() =>
+              setShowModificationPassword(!showModificationPassword)
+            }
+          />
+        </View>
       )}
 
       {showModificationPassword && (
@@ -126,10 +123,7 @@ const UserSettingsScreen = () => {
         </View>
       )}
       <View style={styles.button}>
-        <Button
-          title="Valider"
-          onPress={() => handleModifyPassword()}
-        />
+        <Button title="Valider" onPress={() => handleModifyPassword()} />
       </View>
     </SafeAreaView>
   );
