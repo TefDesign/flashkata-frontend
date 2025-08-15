@@ -56,7 +56,7 @@ const ChallengeScreen = ({ navigation }) => {
         fontFamily: theme.fonts.outfitRegular,
         fontSize: theme.fontSize.subMenu,
         margin: theme.spacing.small,
-        color: challengeType && isClickedHira ? "#DD3B3B" : "#000000",
+        color: challengeType && isClickedHira ? "#DD3B3B" : theme.colors.text,
         marginBottom: 5,
         textAlign: "center",
       },
@@ -64,7 +64,7 @@ const ChallengeScreen = ({ navigation }) => {
         fontFamily: theme.fonts.outfitRegular,
         fontSize: theme.fontSize.subMenu,
         margin: theme.spacing.small,
-        color: challengeType && isClickedKata ? "#DD3B3B" : "#000000",
+        color: challengeType && isClickedKata ? "#DD3B3B" : theme.colors.text,
         marginBottom: 5,
         textAlign: "center",
       },
@@ -72,7 +72,7 @@ const ChallengeScreen = ({ navigation }) => {
         fontFamily: theme.fonts.outfitRegular,
         fontSize: theme.fontSize.subMenu,
         margin: theme.spacing.small,
-        color: challengeType && isClickedAll ? "#DD3B3B" : "#000000",
+        color: challengeType && isClickedAll ? "#DD3B3B" : theme.colors.text,
         marginBottom: 5,
         textAlign: "center",
       },
@@ -92,7 +92,6 @@ const ChallengeScreen = ({ navigation }) => {
   const startChallenge = async () => {
 
     if(hiraActive || kataActive || allActive){
-      console.log("Leeeeeeeet's euh go")
     setErrMsg("");
     setLoading(true);
     try {
@@ -104,7 +103,7 @@ const ChallengeScreen = ({ navigation }) => {
       const token = user.token
       const isDevMode = false
 
-// console.log("Ca c'est toi:", id, token)
+// console.log("user", id, token)
 
       if (!id || !token) {
         setErrMsg("Utilisateur non connecté (id/token manquants).");
@@ -112,7 +111,7 @@ const ChallengeScreen = ({ navigation }) => {
         return;
       }
 
-// console.log("You shaaaall not pass")
+// console.log("Test2 ok")
 
       const body = {
         nbSlider: nbSlider,
@@ -133,7 +132,7 @@ console.log("beau dix", body)
         body: JSON.stringify(body),
       });
 
-// console.log("raie the", res)
+// console.log("Response", res)
 
       const json = await res.json();
 
@@ -260,7 +259,7 @@ console.log( "normalized" , normalized[0] )
       </TouchableOpacity>
       <Separator />
       <View style={styles.sliderContainer}>
-        <Text style={styles.text}>Activer le chrono</Text>
+        <Text style={styles.text}> {activeLimit ? 'Chrono Mode' : 'Infinite Mode'}</Text>
         <SwitchOption value={activeLimit} onChange={setActiveLimit} />
         {activeLimit &&
           <SliderRange 

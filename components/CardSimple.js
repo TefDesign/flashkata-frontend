@@ -4,10 +4,37 @@
 
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import theme from "../styles/themeLight";
+import useThemedStyles from "../hooks/useThemedStyles";
 import { getSvgRequire } from "../utils/svgMap";
 import { useEffect, useState } from "react";
 
 const CardSimple = (props) => {
+  const [theme, styles] = useThemedStyles((theme) =>
+    StyleSheet.create({
+       container: {
+        // width: Dimensions.get("window").width / 1.2,
+        // height: Dimensions.get("window").height / 1.7,
+        flex: 1,
+        alignSelf: "stretch",
+        alignItems: "center",
+        justifyContent: "center",
+        borderColor: theme.colors.borderCard,
+        borderWidth: 10,
+        borderRadius: theme.borderRadius.card,
+      },
+      content: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      text: {
+        textAlign: "center",
+        marginTop: "auto",
+        fontSize: 300,
+        marginBottom: 20,
+      },
+    })
+  );
 
   const { 
     number, 
@@ -16,14 +43,14 @@ const CardSimple = (props) => {
     word, 
     bgColor = "#f0f0f0", 
     isCorrect, 
-    isPicked } = props;
+    isPicked,
+    isTuto = false
+   } = props;
 
   const imageKey = `${number}-${type}-${name}`;
   const SvgComponent = getSvgRequire(imageKey);
   
   const [hasValidated, setHasValidated] = useState(false);
-
-
 
 
   return (
@@ -33,7 +60,7 @@ const CardSimple = (props) => {
         {
           borderColor: isPicked ? "transparent" : theme.colors.borderCard,
           backgroundColor: !isPicked
-            ? bgColor
+            ? theme.colors.backgroundOptions
             : isCorrect && isPicked
             ? bgColor
             : bgColor
@@ -43,7 +70,7 @@ const CardSimple = (props) => {
       <View style={styles.content}>
         {SvgComponent && (
           <SvgComponent
-            color={isPicked ? "#ffffff" : theme.colors.text}
+            color={isTuto ? "#ffffff" : isPicked ? "#ffffff" : theme.colors.text}
             width={isPicked ? 120 : 80}
             height={isPicked ? 120 : 80}
           />
@@ -62,28 +89,3 @@ const CardSimple = (props) => {
 };
 
 export default CardSimple;
-
-const styles = StyleSheet.create({
-  container: {
-    // width: Dimensions.get("window").width / 1.2,
-    // height: Dimensions.get("window").height / 1.7,
-    flex: 1,
-    alignSelf: "stretch",
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: theme.colors.borderCard,
-    borderWidth: 10,
-    borderRadius: theme.borderRadius.card,
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    textAlign: "center",
-    marginTop: "auto",
-    fontSize: 300,
-    marginBottom: 20,
-  },
-});
