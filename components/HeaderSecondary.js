@@ -17,6 +17,7 @@ const HeaderSecondary = ({
   isArrowBack = true,
   isAvatar = true,
   color = "",
+  isOnDeck = false,
 }) => {
   const onlyAvatar = !isArrowBack && isAvatar;
   const navigation = useNavigation();
@@ -39,20 +40,22 @@ const HeaderSecondary = ({
       },
     })
   );
+  const changeBackArrow = () => {
+    return isOnDeck ? navigation.popTo("MainMenu") : navigation.goBack();
+  };
 
   return (
     <View style={[styles.headerContainer, onlyAvatar && styles.onlyAvatar]}>
       {isArrowBack && (
         <TouchableOpacity
           onPress={() => {
-            route.name === "Learn"
-              ? navigation.navigate("MainMenu")
-              : navigation.goBack();
+            changeBackArrow();
           }}
         >
           <ArrowBackIcon
             width={40}
             height={40}
+            style={{ color: color === "" ? theme.colors.text : color }}
             style={{ color: color === "" ? theme.colors.text : color }}
           />
         </TouchableOpacity>
