@@ -7,12 +7,22 @@ import theme from "../styles/themeLight";
 import useThemedStyles from "../hooks/useThemedStyles";
 import { getSvgRequire } from "../utils/svgMap";
 import { useEffect, useState } from "react";
-import useThemedStyles from "../hooks/useThemedStyles";
 
 const CardSimple = (props) => {
+  const {
+    number,
+    name,
+    type,
+    image = null,
+    word,
+    bgColor = "#f0f0f0",
+    isCorrect,
+    isPicked,
+    isTuto = false,
+  } = props;
+
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
-
       container: {
         width: Dimensions.get("window").width / 1.2,
         height: Dimensions.get("window").height / 1.7,
@@ -22,18 +32,16 @@ const CardSimple = (props) => {
         borderWidth: 10,
         borderRadius: theme.borderRadius.card,
       },
-      containerQuizz : {
+      containerQuizz: {
         flex: 1,
         alignSelf: "stretch",
         alignItems: "center",
         justifyContent: "center",
         borderColor: theme.colors.borderCard,
         borderWidth: 10,
-        borderRadius: theme.borderRadius.card,      
+        borderRadius: theme.borderRadius.card,
       },
-      
-      
-      
+
       content: {
         flex: 1,
         justifyContent: "center",
@@ -52,55 +60,41 @@ const CardSimple = (props) => {
     })
   );
 
-
-  const { 
-    number, 
-    name,
-    type, 
-    word, 
-    bgColor = "#f0f0f0", 
-    isCorrect, 
-    isPicked,
-    isTuto = false
-   } = props;
-
   const imageKey = `${number}-${type}-${name}`;
   const SvgComponent = getSvgRequire(imageKey);
-  
 
   const [hasValidated, setHasValidated] = useState(false);
 
-
   return (
-    
-    <View style={[
-        styles.container,
+    <View
+      style={[
+        isTuto ? styles.container : styles.containerQuizz,
         {
           borderColor: isPicked ? "transparent" : theme.colors.borderCard,
           backgroundColor: !isPicked
             ? theme.colors.backgroundOptions
             : isCorrect && isPicked
             ? bgColor
-            : bgColor
+            : bgColor,
         },
       ]}
     >
       <View style={styles.content}>
         {SvgComponent && (
           <SvgComponent
+            color={
+              isTuto ? "#ffffff" : isPicked ? "#ffffff" : theme.colors.text
+            }
+            width={isTuto ? "300" : isPicked ? 120 : 80}
+            height={isTuto ? "300" : isPicked ? 120 : 80}
 
-            color={isTuto ? "#ffffff" : isPicked ? "#ffffff" : theme.colors.text}
-            width={isPicked ? 120 : 80}
-            height={isPicked ? 120 : 80}
-
-              /* version main
+            /* version main
             color={
               isTuto ? "#ffffff" : hasValidated ? "#ffffff" : theme.colors.text
             }
             width={300}
             height={300}
             */
-
           />
         )}
         {/* {image && <Text style={[
@@ -115,6 +109,5 @@ const CardSimple = (props) => {
     </View>
   );
 };
-
 
 export default CardSimple;

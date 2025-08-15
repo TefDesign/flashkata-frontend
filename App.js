@@ -23,7 +23,7 @@ import SyllabaireScreen from "./screens/SyllabaireScreen";
 import KanaScreen from "./screens/KanaScreen";
 import ScoreScreen from "./screens/ScoreScreen";
 import UserSettingsScreen from "./screens/UserSettingsScreen.js";
-
+import QuizzScreen from "./screens/QuizzScreen.js";
 
 import LearnScreen from "./screens/LearnScreen.js";
 import LoadingScreen from "./screens/LoadingScreen.js";
@@ -123,6 +123,5 @@ export default function App() {
         </PersistGate>
       </Provider>
     </GestureHandlerRootView>
-
   );
 }
