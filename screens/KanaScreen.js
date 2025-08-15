@@ -159,7 +159,7 @@ export default function KanaScreen({ navigation, route }) {
 
   const makeFavorite = async () => {
     try {
-      console.log('aaa')
+      console.log('aaa', type === "katakana" ? kana.katakanaId : kana.hiraganaId)
       const resp = await fetch(`${API_URL}/progress/kataProgress/modify`, {
         method: 'PATCH',
         headers: {
@@ -168,7 +168,7 @@ export default function KanaScreen({ navigation, route }) {
         body: JSON.stringify({
           token: user.token,
           userId: user.id,
-          katakana: type === "katakana" ? kana.katakanaId : kana.hiraganaId,
+          [type === "katakana" ? 'katakana' : 'hiragana']: type === "katakana" ? kana.katakanaId : kana.hiraganaId,
           isFavorite: !favorite
         })
       })
