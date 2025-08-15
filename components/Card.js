@@ -9,18 +9,50 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import useThemedStyles from "../hooks/useThemedStyles";
+import { getSound } from "../utils/soundsMap";
 
 const Card = (props) => {
   const { kata, isFlipped, direction = "y", duration = 500 } = props;
 
   const isDirectionX = direction === "x";
+  //console.log('kata :', kata)
+
+  const [theme, styles] = useThemedStyles((theme) =>
+    StyleSheet.create({
+      card: {
+        width: Dimensions.get("window").width / 1.2,
+        height: Dimensions.get("window").height / 1.7,
+        alignItems: "center",
+        justifyContent: "center",
+        borderColor: theme.colors.borderCard,
+        borderWidth: 10,
+        backgroundColor: theme.colors.backgroundCard,
+        borderRadius: theme.borderRadius.card,
+      },
+      content: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      title: {
+        fontSize: 300,
+      },
+      text: {
+        textAlign: "center",
+        fontSize: 150,
+        color: theme.colors.text,
+        fontFamily: theme.fonts.outfitRegular,
+      },
+    })
+  );
 
   const ImageCardContent = (content) => {
-    return <View style={styles.content}>{content}</View>;
+    return <View style={styles.card}>{content}</View>;
   };
   const TextCardContent = (content) => {
     return (
-      <View style={styles.content}>
+      <View style={styles.card}>
         <Text style={styles.text}>{content}</Text>
       </View>
     );
@@ -73,33 +105,5 @@ const flipCardStyles = StyleSheet.create({
   flippedCard: {
     position: "absolute",
     backfaceVisibility: "hidden",
-  },
-});
-
-const styles = StyleSheet.create({
-  container: {
-    width: Dimensions.get("window").width / 1.2,
-    height: Dimensions.get("window").height / 1.7,
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: theme.colors.borderCard,
-    borderWidth: 10,
-    backgroundColor: theme.colors.backgroundOptions,
-    borderRadius: theme.borderRadius.card,
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    //backgroundColor: "#ffffff",
-  },
-  title: {
-    fontSize: 300,
-  },
-  text: {
-    textAlign: "center",
-    marginTop: "auto",
-    fontSize: 300,
-    marginBottom: 20,
   },
 });

@@ -15,6 +15,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/users";
 import { API_URL } from "@env";
+import HeaderSecondary from "../components/HeaderSecondary";
+
 
 
 export default function SignInScreen({ navigation }) {
@@ -48,6 +50,7 @@ export default function SignInScreen({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <HeaderSecondary isAvatar={false} color="#0C0C2E"/>
       <View style={styles.logo}>
         <LogoIcon
           width={280}

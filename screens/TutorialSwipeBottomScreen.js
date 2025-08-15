@@ -2,17 +2,14 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 import useThemedStyles from "../hooks/useThemedStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LogoIcon from "../assets/icons/logo.svg";
-import flip from "../assets/icons/flip";
 import Settings from "../components/Settings";
 import HeaderSecondary from "../components/HeaderSecondary";
-import HeaderPrimary from "../components/HeaderPrimary";
 import CardSimple from "../components/CardSimple";
 import Button from "../components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faRepeat } from "@fortawesome/free-solid-svg-icons";
-import ButtonIcon from "../components/ButtonIcon";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 
-const TutorialScreen = ({ navigation }) => {
+const TutorialSwipeBottomScreen = ({ navigation }) => {
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
       container: {
@@ -23,21 +20,19 @@ const TutorialScreen = ({ navigation }) => {
         height: Dimensions.get("window").height,
       },
       logo: {
-        marginBottom: 30,
-      },
-      textLine: {
-        alignSelf: "center",
-        position: "absolute",
-        textAlign: "center",
-        justifyContent: "center",
-        paddingTop: theme.spacing.large,
-        flexDirection: "row",
-        flexWrap: "wrap",
+        marginBottom: 40,
       },
       text: {
-        color: theme.colors.text,
         fontFamily: theme.fonts.outfitRegular,
+        alignSelf: "center",
+        color: theme.colors.text,
+        position: "absolute",
+        textAlign: "center",
+        paddingHorizontal: theme.spacing.small,
+        paddingTop: theme.spacing.large,
         fontSize: 18,
+        flexWrap: "wrap",
+        width: "80%",
       },
       button: {
         margin: theme.spacing.small,
@@ -47,7 +42,6 @@ const TutorialScreen = ({ navigation }) => {
         position: "relative",
         width: "100%",
         alignItems: "center",
-        marginBottom: theme.spacing.medium,
       },
     })
   );
@@ -67,29 +61,29 @@ const TutorialScreen = ({ navigation }) => {
         <View style={styles.card}>
           <CardSimple image="01-hiragana-a" isTuto />
         </View>
-        <View style={styles.textLine}>
-          <Text style={styles.text}>Vous pourrez cliquer sur l'icone </Text>
-          <FontAwesomeIcon
-            icon={faRepeat}
-            size={30}
-            color={theme.colors.primary}
-            style={{ marginHorizontal: 10, marginTop: -5 }}
-          />
-          <Text style={styles.text}>pour voir la réponse.</Text>
-        </View>
+        <Text style={styles.text}>
+          Swiper la carte vers le bas pour continuer à l'apprendre (la garder
+          vers soi).
+        </Text>
       </View>
-      <ButtonIcon icon={flip} />
+      <FontAwesomeIcon
+        icon={faArrowDown}
+        size={80}
+        color={theme.colors.text}
+        style={{ position: "absolute", bottom: "25%" }}
+      />
+
+      <Settings />
       <View style={styles.button}>
         <Button
           title="Suite du tutoriel"
-          onPress={() => navigation.navigate("TutorialSwipeBottom")}
+          onPress={() => navigation.navigate("TutorialSwipeUp")}
         />
       </View>
-      <Settings />
     </SafeAreaView>
   );
 };
 
-export default TutorialScreen;
+export default TutorialSwipeBottomScreen;
 
 const styles = StyleSheet.create({});

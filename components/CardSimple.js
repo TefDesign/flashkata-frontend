@@ -7,25 +7,41 @@ import theme from "../styles/themeLight";
 import useThemedStyles from "../hooks/useThemedStyles";
 import { getSvgRequire } from "../utils/svgMap";
 import { useEffect, useState } from "react";
+import useThemedStyles from "../hooks/useThemedStyles";
 
 const CardSimple = (props) => {
   const [theme, styles] = useThemedStyles((theme) =>
     StyleSheet.create({
-       container: {
-        // width: Dimensions.get("window").width / 1.2,
-        // height: Dimensions.get("window").height / 1.7,
-        flex: 1,
-        alignSelf: "stretch",
+
+      container: {
+        width: Dimensions.get("window").width / 1.2,
+        height: Dimensions.get("window").height / 1.7,
         alignItems: "center",
         justifyContent: "center",
         borderColor: theme.colors.borderCard,
         borderWidth: 10,
         borderRadius: theme.borderRadius.card,
       },
+      containerQuizz : {
+        flex: 1,
+        alignSelf: "stretch",
+        alignItems: "center",
+        justifyContent: "center",
+        borderColor: theme.colors.borderCard,
+        borderWidth: 10,
+        borderRadius: theme.borderRadius.card,      
+      },
+      
+      
+      
       content: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+      },
+      title: {
+        fontSize: 300,
+        color: "#ffffff",
       },
       text: {
         textAlign: "center",
@@ -35,6 +51,7 @@ const CardSimple = (props) => {
       },
     })
   );
+
 
   const { 
     number, 
@@ -50,6 +67,7 @@ const CardSimple = (props) => {
   const imageKey = `${number}-${type}-${name}`;
   const SvgComponent = getSvgRequire(imageKey);
   
+
   const [hasValidated, setHasValidated] = useState(false);
 
 
@@ -70,9 +88,19 @@ const CardSimple = (props) => {
       <View style={styles.content}>
         {SvgComponent && (
           <SvgComponent
+
             color={isTuto ? "#ffffff" : isPicked ? "#ffffff" : theme.colors.text}
             width={isPicked ? 120 : 80}
             height={isPicked ? 120 : 80}
+
+              /* version main
+            color={
+              isTuto ? "#ffffff" : hasValidated ? "#ffffff" : theme.colors.text
+            }
+            width={300}
+            height={300}
+            */
+
           />
         )}
         {/* {image && <Text style={[
@@ -87,5 +115,6 @@ const CardSimple = (props) => {
     </View>
   );
 };
+
 
 export default CardSimple;

@@ -14,12 +14,15 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/users";
 import { API_URL } from "@env";
+import HeaderSecondary from "../components/HeaderSecondary";
 
 export default function SignUpScreen({ navigation }) {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+
 
   const handleSignup = () => {
     fetch(`${API_URL}/users/signup`, {
@@ -34,8 +37,8 @@ export default function SignUpScreen({ navigation }) {
             login({ token: data.token, username: data.userName, id: data.id })
           );
           navigation.navigate("MainMenu");
-        } else if (data.message) {
-          alert(data.message);
+        } else if (data.error) {
+          alert(data.error);
         }
       });
   };
@@ -44,7 +47,9 @@ export default function SignUpScreen({ navigation }) {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={100}
     >
+      <HeaderSecondary isAvatar={false} color="black"/>
       <View style={styles.logo}>
         <LogoIcon
           width={280}

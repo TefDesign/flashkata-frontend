@@ -1,11 +1,4 @@
-import {
-  StyleSheet, 
-  Text, 
-  View, 
-  KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import LogoIcon from "../assets/icons/logo.svg";
 import HeaderSecondary from "../components/HeaderSecondary";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,29 +12,28 @@ import { useSelector } from "react-redux";
 import { API_URL } from "@env";
 
 const UserSettingsScreen = () => {
-
   const user = useSelector((state) => state.users);
 
-  const [showModificationPassword, setShowModificationPassword] = useState(false);
+  const [showModificationPassword, setShowModificationPassword] =
+    useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const handleModifyPassword = () => {
-
     if (!newPassword || !confirmNewPassword) {
-      alert("Champ vide.")
-      return
+      alert("Champ vide.");
+      return;
     }
 
     if (newPassword !== confirmNewPassword) {
-      alert("Les mots de passe ne sont pas identiques.")
-      return
+      alert("Les mots de passe ne sont pas identiques.");
+      return;
     }
 
     fetch(`${API_URL}/users/modify`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         id: user.id,
         token: user.token,
         password: newPassword,
@@ -59,76 +51,96 @@ const UserSettingsScreen = () => {
   };
 
   const [theme, styles] = useThemedStyles((theme) =>
-      StyleSheet.create({
-        container: {
-          flex: 1,
-          backgroundColor: theme.colors.background,
-          alignItems: "center",
-        },
-        logo: {
-          marginBottom: 78,
-        },
-        setting: {
-          position: "absolute",
-          bottom: 30,
-          right: 30,
-        },
-        button: {
-          width: "85%",
-        },
-        text: {
-          fontFamily: theme.fonts.staatliches,
-          fontSize: theme.fontSize.menu,
-        }
-      })
-    );
+    StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        alignItems: "center",
+        paddingHorizontal: theme.spacing.large,
+      },
+      logo: {
+        marginBottom: 40,
+      },
+      setting: {
+        position: "absolute",
+        bottom: 30,
+        right: 30,
+      },
+      button: {
+        width: "100%",
+        margin: theme.spacing.medium,
+        paddingHorizontal: theme.spacing.large,
+      },
+      hiddenButton: {
+        margin: theme.spacing.large,
+      },
+      hiddenButtonBack: {
+        paddingHorizontal: theme.spacing.large,
+      },
+      text: {
+        fontFamily: theme.fonts.staatliches,
+        fontSize: theme.fontSize.menu,
+        color: theme.colors.text,
+      },
+    })
+  );
 
   return (
-      <SafeAreaView style={styles.container}>
-        <HeaderSecondary isAvatar={false} />
+    <SafeAreaView style={styles.container}>
+      <HeaderSecondary isAvatar={false} />
+      <View style={styles.logo}>
         <LogoIcon
           width={256}
           height={136}
           style={{ color: theme.colors.text }}
         />
-        <Avatar />
-        <Text style={styles.text}>{user.username}</Text>
-        <Settings />
+      </View>
+      <Avatar size="160" isChange />
+      <Text style={styles.text}>{user.username}</Text>
+      <Settings />
 
-        {!showModificationPassword && (
+      {!showModificationPassword && (
+        <View style={styles.button}>
           <Button
-            variant = "outline"
-            style={styles.button}
+            variant="outline"
             title="Changer de mot de passe"
-            onPress={() => setShowModificationPassword(!showModificationPassword)}
+            onPress={() =>
+              setShowModificationPassword(!showModificationPassword)
+            }
           />
-        )}
+        </View>
+      )}
 
-        {showModificationPassword && (
-          <View>
-            <Input
-              placeholder="Nouveau mot de passe"
-              autoCapitalize="none"
-              secureTextEntry
-              onChangeText={(value) => setNewPassword(value)}
-              value={newPassword}
-            />
-            <Input
-              placeholder="Confirmer mot de passe"
-              autoCapitalize="none"
-              secureTextEntry
-              onChangeText={(value) => setConfirmNewPassword(value)}
-              value={confirmNewPassword}
+      {showModificationPassword && (
+        <View>
+          <Input
+            placeholder="Nouveau mot de passe"
+            autoCapitalize="none"
+            secureTextEntry
+            onChangeText={(value) => setNewPassword(value)}
+            value={newPassword}
+          />
+          <Input
+            placeholder="Confirmer mot de passe"
+            autoCapitalize="none"
+            secureTextEntry
+            onChangeText={(value) => setConfirmNewPassword(value)}
+            value={confirmNewPassword}
+          />
+          <View style={styles.hiddenButton}>
+            <Button title="Valider" onPress={() => handleModifyPassword()} />
+          </View>
+          <View style={styles.hiddenButtonBack}>
+            <Button 
+              variant="outline" 
+              title="Annuler modification" 
+              onPress={() => setShowModificationPassword(!showModificationPassword)} 
             />
           </View>
-        )}
-
-        <Button
-          style={styles.button}
-          title="Valider"
-          onPress={() => handleModifyPassword()}
-        />
-      </SafeAreaView>
+        </View>
+      )}
+      
+    </SafeAreaView>
   );
 };
 
